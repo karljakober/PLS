@@ -58,7 +58,7 @@
  * For MySQL to connect via socket specify the `unix_socket` parameter instead of `host` and `port`
  */
 
-require_once('/envconfig.php');
+require_once('./envconfig.php');
 
 class DATABASE_CONFIG {
 

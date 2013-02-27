@@ -163,10 +163,6 @@ def bootstrap():
 
     apt("php-pear php5-dev")
 
-    #otherwise pear will throw an error if its already installed.
-    with settings(warn_only=True):
-        sudo("pear install HTML_QuickForm")
-
     #run this AFTER we install apache, or the following error will happen
     #apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1 for ServerName
     sudo('''sh -c "echo 'ServerName PLS' > /etc/apache2/httpd.conf"''')

@@ -7,3 +7,5 @@
 
 /app/Config/envconfig.php
 /.Trash-1000
+.vagrant
+*.pyc

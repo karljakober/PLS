@@ -15,3 +15,15 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 require 'webroot' . DIRECTORY_SEPARATOR . 'index.php';
+
+if (!defined('ROOT')) {
+    define('ROOT', DS . 'home' . DS . 'me');
+}
+
+if (!defined('APP_DIR')) {
+    define ('APP_DIR', 'myapp');
+}
+
+if (!defined('CAKE_CORE_INCLUDE_PATH')) {
+    define('CAKE_CORE_INCLUDE_PATH', DS . 'usr' . DS . 'lib');
+}

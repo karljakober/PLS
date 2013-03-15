@@ -142,7 +142,8 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
-
+CakePlugin::load('users', array('routes' => true));
+CakePlugin::loadAll(array('ignoreMissing' => true)); 
 
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:
@@ -179,3 +180,6 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+
+Configure::write('Users.roles', array('admin' => 'Admin', 'registered' => 'Registered'));

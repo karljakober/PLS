@@ -49,12 +49,15 @@ class AppController extends Controller {
     public $helpers = array('Html', 'Form', 'Session');
 
     public function beforeFilter() {
-        $this->Auth->allow();
+        //$this->Auth->allow();
         //Configure AuthComponent
         $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
         $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
-        $this->Auth->loginRedirect = array('controller' => 'posts', 'action' => 'add');
+        //$this->Auth->loginRedirect = array('controller' => 'posts', 'action' => 'add');
+        $this->Auth->loginRedirect = "/";
 
+        $this->Auth->authorize = 'Controller';
+        
         if ($this->Lan->active()) {
             $timeline_json = '/events/timeline_json';
         } else {
@@ -69,7 +72,8 @@ class AppController extends Controller {
                 'Servers' => '/servers/',
                 'Sponsors' => '/sponsors/', 
                 'Local Streamers' => '/streamers/', 
-                'Schedule' => '/schedule/'
+                'Schedule' => '/schedule/',
+                'Log Out' => '/logout/'
             );
         } else {
             $navigation = array(
@@ -84,6 +88,13 @@ class AppController extends Controller {
         $this->set('navigation', $navigation);
 
         $this->set('streamList', $this->User->getStreamerList());
+    }
+
+    public function isAuthorized() {
+        if (isset($this->params['admin']) && $this->Auth->user('role') == 'admin') {
+            return true;
+        }
+        return false;
     }
 
 }

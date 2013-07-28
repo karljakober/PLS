@@ -60,4 +60,3 @@
 	</table>
 	<?php echo $this->element('pagination'); ?>
 </div>
-<?php echo $this->element('Users/sidebar'); ?>

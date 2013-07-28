@@ -7,6 +7,12 @@ App::uses('AppController', 'Controller');
  */
 class LansController extends AppController {
 
+
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('index', 'view');
+	}
+
 /**
  * index method
  *
@@ -37,7 +43,7 @@ class LansController extends AppController {
  *
  * @return void
  */
-	public function add() {
+	public function admin_add() {
 		if ($this->request->is('post')) {
 			$this->Lan->create();
 			if ($this->Lan->save($this->request->data)) {
@@ -56,7 +62,7 @@ class LansController extends AppController {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
+	public function admin_edit($id = null) {
 		if (!$this->Lan->exists($id)) {
 			throw new NotFoundException(__('Invalid lan'));
 		}
@@ -81,7 +87,7 @@ class LansController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	public function admin_delete($id = null) {
 		$this->Lan->id = $id;
 		if (!$this->Lan->exists()) {
 			throw new NotFoundException(__('Invalid lan'));

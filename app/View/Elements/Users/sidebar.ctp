@@ -3,7 +3,7 @@
 		<?php if (!$this->Session->read('Auth.User.id')) : ?>
 			<li><?php echo $this->Html->link(__d('users', 'Login'), array('action' => 'login')); ?></li>
             <?php if (!empty($allowRegistration) && $allowRegistration)  : ?>
-			<li><?php echo $this->Html->link(__d('users', 'Register an account'), array('action' => 'add')); ?></li>
+			<li><?php echo $this->Html->link(__d('users', 'Register an account'), array('action' => 'register')); ?></li>
             <?php endif; ?>
 		<?php else : ?>
 			<li><?php echo $this->Html->link(__d('users', 'Logout'), array('action' => 'logout')); ?>

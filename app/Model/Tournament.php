@@ -12,6 +12,10 @@ class Tournament extends AppModel {
  *
  * @var array
  */
+
+	public $types = array(
+		'single_elimination', 'double_elimination', 'boiloff');
+	
 	public $validate = array(
 		'lan_id' => array(
 			'numeric' => array(

@@ -19,7 +19,6 @@
     var usernames = "<?php echo $streamList; ?>";
 
     setInterval(function(){
-      alert('going');
       $.ajax({
         url:        'https://api.twitch.tv/kraken/streams?channel=' + usernames + '&callback=?',
         dataType:   "jsonp",
@@ -55,6 +54,7 @@
     </div>
     <div id="single-middle-contents" class="clearfix">
       <div id="full-col">
+        <?php echo $this->Session->flash(); ?>
         <?php echo $this->fetch('content'); ?>
       </div>
     </div>
@@ -66,7 +66,7 @@
 </div>
 <!-- #wrapper end -->
 <script type="text/javascript">
-  var menu=new menu.dd("menu");
+  var menu = new menu.dd("menu");
   menu.init("menu","menuhover");
 </script>
 </body>

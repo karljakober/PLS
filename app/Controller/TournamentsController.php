@@ -8,6 +8,13 @@ App::uses('AppController', 'Controller');
 class TournamentsController extends AppController {
 
 	public $uses = array('Tournament', 'Bracket');
+
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('index', 'view');
+	}
+
+
 /**
  * index method
  *
@@ -41,7 +48,7 @@ class TournamentsController extends AppController {
  *
  * @return void
  */
-	public function add() {
+	public function admin_add() {
 		if ($this->request->is('post')) {
 			$this->Tournament->create();
 			if ($this->Tournament->save($this->request->data)) {
@@ -62,7 +69,7 @@ class TournamentsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
+	public function admin_edit($id = null) {
 		if (!$this->Tournament->exists($id)) {
 			throw new NotFoundException(__('Invalid tournament'));
 		}
@@ -89,7 +96,7 @@ class TournamentsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	public function admin_delete($id = null) {
 		$this->Tournament->id = $id;
 		if (!$this->Tournament->exists()) {
 			throw new NotFoundException(__('Invalid tournament'));

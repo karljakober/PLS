@@ -34,4 +34,3 @@
 		?>
 	</dl>
 </div>
-<?php echo $this->element('Users/sidebar'); ?>

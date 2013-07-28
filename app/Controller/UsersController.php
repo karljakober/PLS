@@ -180,7 +180,8 @@ class UsersController extends UsersAppController {
 				'userModel' => $this->_pluginDot() . $this->modelClass,
 				'scope' => array(
 					$this->modelClass . '.active' => 1,
-					$this->modelClass . '.email_verified' => 1)));
+					//$this->modelClass . '.email_verified' => 1
+				)));
 
 		$this->Auth->loginRedirect = '/';
 		$this->Auth->logoutRedirect = array('plugin' => $this->plugin, 'controller' => 'users', 'action' => 'login');
@@ -365,7 +366,7 @@ class UsersController extends UsersAppController {
 		}
 
 		if (!empty($this->request->data)) {
-			$user = $this->{$this->modelClass}->register($this->request->data, array('emailVerification' => false));
+			$user = $this->{$this->modelClass}->add($this->request->data, array('emailVerification' => false));
 			if ($user !== false) {
 				//$this->_sendVerificationEmail($this->{$this->modelClass}->data);
 				//$this->Session->setFlash(__d('users', 'Your account has been created. You should receive an e-mail shortly to authenticate your account. Once validated you will be able to login.'));
@@ -411,7 +412,7 @@ class UsersController extends UsersAppController {
 
 				$this->redirect($this->Auth->redirect($data['return_to']));
 			} else {
-				$this->Auth->flash(__d('users', 'Invalid e-mail / password combination.  Please try again'));
+				$this->Session->setFlash(__d('users', 'Invalid e-mail / password combination.  Please try again'));
 			}
 		}
 		if (isset($this->request->params['named']['return_to'])) {

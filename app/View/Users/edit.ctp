@@ -24,4 +24,3 @@
 		</fieldset>
 	<?php echo $this->Form->end(__d('users', 'Submit')); ?>
 </div>
-<?php echo $this->element('Users/sidebar'); ?>

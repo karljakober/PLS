@@ -7,6 +7,11 @@ App::uses('AppController', 'Controller');
  */
 class ServersController extends AppController {
 
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('index', 'view', 'add', 'edit', 'delete');
+	}
+
 /**
  * index method
  *

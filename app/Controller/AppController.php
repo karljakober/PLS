@@ -32,6 +32,8 @@ App::uses('Controller', 'Controller');
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+    public $theme = 'PONG';
+
 	public $components = array(
 		'DebugKit.Toolbar',
         'Auth' => array(
@@ -42,7 +44,7 @@ class AppController extends Controller {
         'Session'
     );
 
-    public $uses = array('Lan');
+    public $uses = array('Lan', 'User');
 
     public $helpers = array('Html', 'Form', 'Session');
 
@@ -71,8 +73,8 @@ class AppController extends Controller {
             );
         } else {
             $navigation = array(
-                'Log in' => '/users/login/',
-                'Register' => '/users/join/',
+                'Log in' => '/login/',
+                'Register' => '/register/',
                 'Tournaments' => '/tournaments/',
                 'Servers' => '/servers/',
                 'Sponsors' => '/sponsors/', 
@@ -80,6 +82,8 @@ class AppController extends Controller {
             );
         }
         $this->set('navigation', $navigation);
+
+        $this->set('streamList', $this->User->getStreamerList());
     }
 
 }

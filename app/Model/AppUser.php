@@ -1,5 +1,5 @@
 <?php
-App::uses('User', 'Users.Model');
+App::uses('User', 'Model');
 
 class AppUser extends User {
     public $useTable = 'users';

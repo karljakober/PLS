@@ -142,7 +142,7 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
-CakePlugin::load('users', array('routes' => true));
+
 CakePlugin::loadAll(array('ignoreMissing' => true)); 
 
 /**
@@ -182,4 +182,4 @@ CakeLog::config('error', array(
 ));
 
 
-Configure::write('Users.roles', array('admin' => 'Admin', 'registered' => 'Registered'));
+Configure::write('roles', array('admin' => 'Admin', 'registered' => 'Registered'));

@@ -1,11 +1,11 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Tournament Model
+ * Server Model
  *
  * @property Lan $Lan
  */
-class Tournament extends AppModel {
+class Bracket extends AppModel {
 
 /**
  * Validation rules
@@ -13,7 +13,7 @@ class Tournament extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'lan_id' => array(
+		'tournament_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -23,7 +23,7 @@ class Tournament extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'name' => array(
+		'json' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
 				//'message' => 'Your custom message here',
@@ -43,13 +43,17 @@ class Tournament extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Lan' => array(
-			'className' => 'Lan',
-			'foreignKey' => 'lan_id',
+		'Tournament' => array(
+			'className' => 'Tournament',
+			'foreignKey' => 'tournament_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		)
 	);
 
+	public function getAutocomplete($id) {
+		$tournament = $this->findByTournamentId($id);
+		return $tournament['Bracket']['json'];
+	}
 }

@@ -7,13 +7,14 @@ App::uses('AppController', 'Controller');
  */
 class TournamentsController extends AppController {
 
+	public $uses = array('Tournament', 'Bracket');
 /**
  * index method
  *
  * @return void
  */
 	public function index() {
-		$this->Tournament->recursive = 0;
+		$this->Tournament->recursive = 1;
 		$this->set('tournaments', $this->paginate());
 	}
 
@@ -30,6 +31,9 @@ class TournamentsController extends AppController {
 		}
 		$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id));
 		$this->set('tournament', $this->Tournament->find('first', $options));
+
+		$this->set('autoCompleteData', $this->Bracket->getAutocomplete($id));
+
 	}
 
 /**
@@ -98,4 +102,5 @@ class TournamentsController extends AppController {
 		$this->Session->setFlash(__('Tournament was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
 }

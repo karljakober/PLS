@@ -59,7 +59,13 @@ class User extends UsersAppModel {
 	public $hasMany = array(
 		'UserDetail' => array(
 			'className' => 'UserDetail',
-			'foreignKey' => 'user_id'));
+			'foreignKey' => 'user_id'
+		),
+		'Server' => array(
+			'className' => 'Server',
+			'foreignKey' => 'user_id',
+		)
+	);
 
 /**
  * Validation domain for translations 

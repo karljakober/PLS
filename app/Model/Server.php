@@ -4,6 +4,7 @@ App::uses('AppModel', 'Model');
  * Server Model
  *
  * @property Lan $Lan
+ * @property User $User
  */
 class Server extends AppModel {
 
@@ -49,6 +50,17 @@ class Server extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+		'User' => array(
+			'className' => 'User',
+			'foreignKey' => 'user_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
 	);
+
+	public function isOwnedBy($server, $user) {
+    	return $this->field('id', array('id' => $server, 'user_id' => $user)) === $server;
+	}
 }

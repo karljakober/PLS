@@ -10,7 +10,6 @@ class LansController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index', 'view');
 	}
 
 /**
@@ -36,6 +35,7 @@ class LansController extends AppController {
 		}
 		$options = array('conditions' => array('Lan.' . $this->Lan->primaryKey => $id));
 		$this->set('lan', $this->Lan->find('first', $options));
+		$this->set('lanActive', $this->Lan->lanActive($id));
 	}
 
 /**

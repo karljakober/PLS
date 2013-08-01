@@ -9,7 +9,6 @@ class ServersController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index', 'view', 'add', 'edit', 'delete');
 	}
 
 /**
@@ -45,6 +44,7 @@ class ServersController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Server->create();
+			$this->Server->set('user_id', $this->Auth->user('id'));
 			if ($this->Server->save($this->request->data)) {
 				$this->Session->setFlash(__('The server has been saved'));
 				$this->redirect(array('action' => 'index'));
@@ -68,6 +68,7 @@ class ServersController extends AppController {
 			throw new NotFoundException(__('Invalid server'));
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
+			$this->Server->read(null, $id);
 			if ($this->Server->save($this->request->data)) {
 				$this->Session->setFlash(__('The server has been saved'));
 				$this->redirect(array('action' => 'index'));
@@ -102,5 +103,25 @@ class ServersController extends AppController {
 		}
 		$this->Session->setFlash(__('Server was not deleted'));
 		$this->redirect(array('action' => 'index'));
+	}
+
+
+	public function isAuthorized($user) {
+	    // All registered users can add posts
+	    if ($this->action === 'add') {
+	        return true;
+	    }
+
+	    // The owner of a post can edit and delete it, so can an admin
+	    if (in_array($this->action, array('edit', 'delete'))) {
+	        $serverId = $this->request->params['pass'][0];
+	        if ($this->Server->isOwnedBy($serverId, $this->user['User']['id']) || $this->Auth->User('role') == 'admin') {
+	            return true;
+	        } else {
+	        	return false;
+	        }
+	    }
+
+	    return parent::isAuthorized($user);
 	}
 }

@@ -63,14 +63,29 @@ class Lan extends AppModel {
 	);
 
 
-	public function active() {
-		$curLan = $this->find('first', array(
-			'conditions' => array(
-			   'CURDATE() between Lan.start_time and Lan.end_time')));
+	public function active($upcoming = false) {
+		if ($upcoming) {
+            $curLan = $this->find('first', array(
+            'conditions' => array(
+               'CURDATE() < Lan.end_time')));
+        } else {
+            $curLan = $this->find('first', array(
+            'conditions' => array(
+               'CURDATE() between Lan.start_time and Lan.end_time')));
+        }
+        
 
 		return $curLan;
 
 	}
+
+    public function lanActive($id) {
+        $lan = $this->findById($id);
+        if ($lan['Lan']['end_time'] < date(time())) {
+            return false;
+        }
+        return true;
+    }
 
 	public function getTimelineJson() {
 		$data = array(

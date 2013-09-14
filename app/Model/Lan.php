@@ -73,9 +73,13 @@ class Lan extends AppModel {
             'conditions' => array(
                'CURDATE() between Lan.start_time and Lan.end_time')));
         }
-        
+        if(empty($curLan)) {
+            $curLan = $this->find('first', array(
+            'conditions' => array(
+               'CURDATE() > Lan.end_time')));
+        }
 
-		return $curLan;
+        return $curLan;
 
 	}
 

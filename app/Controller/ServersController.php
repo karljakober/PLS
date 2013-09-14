@@ -106,7 +106,7 @@ class ServersController extends AppController {
 	}
 
 
-	public function isAuthorized($user) {
+	public function isAuthorized() {
 	    // All registered users can add posts
 	    if ($this->action === 'add') {
 	        return true;
@@ -122,6 +122,6 @@ class ServersController extends AppController {
 	        }
 	    }
 
-	    return parent::isAuthorized($user);
+	    return parent::isAuthorized();
 	}
 }

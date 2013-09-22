@@ -32,10 +32,9 @@ App::uses('Controller', 'Controller');
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-    public $theme = 'PONG';
+    public $theme = false;
 
 	public $components = array(
-		'DebugKit.Toolbar',
         'Auth' => array(
             'authorize' => array(
                 //'Actions' => array('actionPath' => 'controllers')
@@ -59,13 +58,13 @@ class AppController extends Controller {
 
         $this->Auth->authorize = 'Controller';
         
-        if ($this->Lan->active()) {
+        /*if ($this->Lan->active()) {
             $timeline_json = '/events/timeline_json';
         } else {
             $timeline_json = '/lans/timeline_json';
         }
-        $this->set('timeline_path', $timeline_json);
-        $this->set('activeLan', $this->Lan->active(true));
+        $this->set('timeline_path', $timeline_json);*/
+        //$this->set('activeLan', $this->Lan->active());
 
         if ($this->Auth->User('id')) {
             //setting for controllers
@@ -79,26 +78,40 @@ class AppController extends Controller {
                 $this->set('isAdmin', false);
             }
 
-            $navigation = array(
-                'Seating Chart' => '/seating/', 
+            $navigationleft = array(
+                'Seating Chart' => '/SeatingChart/', 
                 'Tournaments' => '/tournaments/',
                 'Servers' => '/servers/',
                 'Sponsors' => '/pages/sponsors/', 
                 'Local Streamers' => '/streamers/', 
-                'Schedule' => '/schedule/',
-                'Log Out' => '/logout/'
+                'Schedule' => '/schedule/'
+            );
+            
+            if ($user['User']['username'] == "") {
+                $user['User']['username'] = 'Steam User';
+            }
+            
+            $navigationright = array(
+                $user['User']['username'] => array(
+                    'View Profile' => '/profile',
+                    'Settings' => '/settings/',
+                    'Log Out' => '/logout/',
+                )
             );
         } else {
-            $navigation = array(
-                'Log in' => '/login/',
-                'Register' => '/register/',
+            $navigationleft = array(
                 'Tournaments' => '/tournaments/',
                 'Servers' => '/servers/',
                 'Sponsors' => '/pages/sponsors/', 
-                'Seating Chart' => '/seating/'
+                'Seating Chart' => '/SeatingChart/'
+            );
+            $navigationright = array(
+                'Register' => '/register/',
+                'Log in' => '/login/'
             );
         }
-        $this->set('navigation', $navigation);
+        $this->set('navigationleft', $navigationleft);
+        $this->set('navigationright', $navigationright);
 
         $this->set('streamList', $this->User->getStreamerList());
     }
@@ -119,6 +132,9 @@ class AppController extends Controller {
         }
         if(in_array($this->name, array('Lans', 'Servers', 'Tournaments'))) {
             $this->Auth->allow('index', 'view');
+        }
+        if(in_array($this->name, array('Users'))) {
+            $this->Auth->allow('steam_login');
         }
 
     }

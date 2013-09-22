@@ -11,6 +11,7 @@
 
 App::uses('Security', 'Utility');
 App::uses('UsersAppModel', 'Model');
+App::uses('openid', 'Vendor');
 
 /**
  * Users Plugin User Model

@@ -33,8 +33,8 @@ App::uses('AppController', 'Controller');
  */
 class UsersAppController extends AppController {
    
-    public function isAuthorized($user) {
-        return parent::isAuthorized($user);
+    public function isAuthorized() {
+        return parent::isAuthorized();
     }
 
 }

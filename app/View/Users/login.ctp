@@ -1,32 +1,75 @@
-<?php
-/**
- * Copyright 2010 - 2013, Cake Development Corporation (http://cakedc.com)
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright Copyright 2010 - 2013, Cake Development Corporation (http://cakedc.com)
- * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
- */
-?>
-<div class="users index">
-	<h2><?php echo __d('users', 'Login'); ?></h2>
-	<fieldset>
-		<?php
-			echo $this->Form->create($model, array(
+<div class="container">
+    <div class="page-content">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="well">
+            <fieldset>
+              <legend><?php echo __d('users', 'Easy log in'); ?></legend>
+              <div class="form-group">
+                <a href="/users/steam_login"><img src="http://cdn.steamcommunity.com/public/images/signinthroughsteam/sits_large_border.png" alt="Sign in with steam" /></a>
+              </div>
+            </fieldset>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <?php echo $this->Session->flash(); ?>
+            <div class="well">
+              <?php 
+              echo $this->Form->create($model, array(
+                'class' => 'bs-example form-horizontal',
 				'action' => 'login',
 				'id' => 'LoginForm'));
-			echo $this->Form->input('email', array(
-				'label' => __d('users', 'Email')));
-			echo $this->Form->input('password',  array(
-				'label' => __d('users', 'Password')));
+			  ?>
+                <fieldset>
+                  <legend><?php echo __d('users', 'Dont have steam? Login'); ?></legend>
 
-			echo '<p>' . $this->Form->input('remember_me', array('type' => 'checkbox', 'label' =>  __d('users', 'Remember Me'))) . '</p>';
-			echo '<p>' . $this->Html->link(__d('users', 'I forgot my password'), array('action' => 'reset_password')) . '</p>';
-
-			echo $this->Form->hidden('User.return_to', array(
-				'value' => $return_to));
-			echo $this->Form->end(__d('users', 'Submit'));
-		?>
-	</fieldset>
+                  <div class="form-group">
+                    <label for="UserEmail" class="col-lg-2 control-label"><?php echo __d('users', 'Email'); ?></label>
+                	<?php
+                	echo $this->Form->input('email', array(
+        				    'label' => false,
+        				    'div' => 'col-lg-10',
+        				    'placeholder' => 'Email',
+        				    'class' => 'form-control'
+    				     ));
+    				?>
+                  </div>
+                  <div class="form-group">
+                    <label for="UserPassword" class="col-lg-2 control-label"><?php echo __d('users', 'Password'); ?></label>
+                    <div class="col-lg-10">
+                    <?php
+          			  echo $this->Form->input('password',  array(
+    				    'label' => false,
+    				    'div' => false,
+    				    'placeholder' => 'Password',
+    				    'class' => 'form-control'
+    				    ));
+          			  echo $this->Form->input('remember_me', array(
+          			    'type' => 'checkbox',
+          			    'div' => 'checkbox',
+          			    'label' =>  __d('users', 'Remember Me')
+          			  ));
+      	  		      echo '<span class="help-block">' . $this->Html->link(__d('users', 'I forgot my password'), array('action' => 'reset_password')) . '</span>';
+              	    ?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <?php
+                    	echo $this->Form->hidden('User.return_to', array(
+    				        'value' => $return_to));
+    			        echo $this->Form->submit(__d('users', 'Submit'),
+    			        array(
+    			            'class' => 'btn btn-primary',
+    			            'div' => false
+    			        ));
+    	                ?>
+                    </div>
+                  </div>
+                </fieldset>
+              <?php echo $this->Form->end(); ?>
+            </div>
+          </div>
+        </div>
+    </div>
 </div>

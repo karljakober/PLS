@@ -61,7 +61,8 @@ class Lan extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-
+	
+    public $hasOne = 'SeatingChart';
 
 	public function active($upcoming = false) {
 		if ($upcoming) {
@@ -73,7 +74,7 @@ class Lan extends AppModel {
             'conditions' => array(
                'CURDATE() between Lan.start_time and Lan.end_time')));
         }
-        if(empty($curLan)) {
+        if(empty($curLan) || !$curLan) {
             $curLan = $this->find('first', array(
             'conditions' => array(
                'CURDATE() > Lan.end_time')));

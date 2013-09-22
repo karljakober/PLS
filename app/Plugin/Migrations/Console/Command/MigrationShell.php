@@ -83,7 +83,7 @@ class MigrationShell extends AppShell {
 
 		$this->path = $this->_getPath() . 'Config' . DS . 'Migration' . DS;
 
-		$this->Version =& new MigrationVersion(array(
+		$this->Version = new MigrationVersion(array(
 			'precheck' => $this->params['precheck'],
 			'connection' => $this->connection,
 			'autoinit' => !$this->params['no-auto-init']));
@@ -471,7 +471,11 @@ class MigrationShell extends AppShell {
 	protected function _fromComparison($migration, $comparison, $oldTables, $currentTables) {
 		foreach ($comparison as $table => $actions) {
 			if (!isset($oldTables[$table])) {
-				$migration['up']['create_table'][$table] = $actions['add'];
+				if (isset($actions['add'])) {
+					$migration['up']['create_table'][$table] = $actions['add'];
+				} elseif (isset($actions['create'])) {
+					$migration['up']['create_table'][$table] = $actions['create'];
+				}
 				$migration['down']['drop_table'][] = $table;
 				continue;
 			}

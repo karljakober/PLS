@@ -1,10 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
-/**
- * Tournaments Controller
- *
- * @property Tournament $Tournament
- */
+
 class TournamentsController extends AppController {
 
 	public $uses = array('Tournament', 'Bracket');
@@ -13,24 +9,11 @@ class TournamentsController extends AppController {
 		parent::beforeFilter();
 	}
 
-
-/**
- * index method
- *
- * @return void
- */
 	public function index() {
 		$this->Tournament->recursive = 1;
 		$this->set('tournaments', $this->paginate());
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function view($id = null) {
 		if (!$this->Tournament->exists($id)) {
 			throw new NotFoundException(__('Invalid tournament'));
@@ -42,11 +25,6 @@ class TournamentsController extends AppController {
 
 	}
 
-/**
- * add method
- *
- * @return void
- */
 	public function admin_add() {
 		if ($this->request->is('post')) {
 			$this->Tournament->create();
@@ -61,13 +39,6 @@ class TournamentsController extends AppController {
 		$this->set(compact('lans'));
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function admin_edit($id = null) {
 		if (!$this->Tournament->exists($id)) {
 			throw new NotFoundException(__('Invalid tournament'));
@@ -87,14 +58,6 @@ class TournamentsController extends AppController {
 		$this->set(compact('lans'));
 	}
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @throws MethodNotAllowedException
- * @param string $id
- * @return void
- */
 	public function admin_delete($id = null) {
 		$this->Tournament->id = $id;
 		if (!$this->Tournament->exists()) {

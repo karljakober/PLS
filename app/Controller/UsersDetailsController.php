@@ -1,43 +1,13 @@
 <?php
-/**
- * Copyright 2010 - 2013, Cake Development Corporation (http://cakedc.com)
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright Copyright 2010 - 2013, Cake Development Corporation (http://cakedc.com)
- * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
- */
 
 App::uses('UsersAppController', 'Controller');
 
-/**
- * Users Details Controller
- *
- * @package users
- * @subpackage users.controllers
- */
 class UserDetailsController extends UsersAppController {
 
-/**
- * Name
- *
- * @var string
- */
 	public $name = 'UserDetails';
 
-/**
- * Helpers
- *
- * @var array
- */
 	public $helpers = array('Html', 'Form');
 
-/**
- * Index
- *
- * @return void
- */
 	public function index() {
 		$userDetails = $this->UserDetail->find('all', array(
 			'contain' => array(),
@@ -48,12 +18,6 @@ class UserDetailsController extends UsersAppController {
 		$this->set('user_details', $userDetails);
 	}
 
-/**
- * View
- *
- * @param string $id Detail ID
- * @return void
- */
 	public function view($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__d('users', 'Invalid Detail.'));
@@ -62,11 +26,6 @@ class UserDetailsController extends UsersAppController {
 		$this->set('user_detail', $this->UserDetail->read(null, $id));
 	}
 
-/**
- * Add
- *
- * @return void
- */
 	public function add() {
 		if (!empty($this->request->data)) {
 			$userId = $this->Auth->user('id');
@@ -83,14 +42,6 @@ class UserDetailsController extends UsersAppController {
 		$this->redirect(array('action' => 'index'));
 	}
 
-/**
- * Edit
- *
- * Allows a logged in user to edit his own profile settings
- *
- * @param string $section Section name
- * @return void
- */
 	public function edit($section = 'user') {
 		if (!isset($section)) {
 			$section = 'user';
@@ -109,12 +60,6 @@ class UserDetailsController extends UsersAppController {
 		$this->set('section', $section);
 	}
 
-/**
- * Delete
- *
- * @param string $id Detail ID
- * @return void
- */
 	public function delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__d('users', 'Invalid id for Detail'));
@@ -126,22 +71,11 @@ class UserDetailsController extends UsersAppController {
 		}
 	}
 
-/**
- * Admin Index
- *
- * @return void
- */
 	public function admin_index() {
 		$this->UserDetail->recursive = 0;
 		$this->set('user_details', $this->paginate());
 	}
 
-/**
- * Admin View
- *
- * @param string $id Detail ID
- * @return void
- */
 	public function admin_view($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__d('users', 'Invalid Detail.'));
@@ -150,11 +84,6 @@ class UserDetailsController extends UsersAppController {
 		$this->set('user_detail', $this->UserDetail->read(null, $id));
 	}
 
-/**
- * Admin Add
- *
- * @return void
- */
 	public function admin_add() {
 		if (!empty($this->request->data)) {
 			$this->UserDetail->create();
@@ -170,12 +99,6 @@ class UserDetailsController extends UsersAppController {
 		$this->set(compact('users'));
 	}
 
-/**
- * Admin edit
- *
- * @param string $id Detail ID
- * @return void
- */
 	public function admin_edit($id = null) {
 		if (!$id && empty($this->request->data)) {
 			$this->Session->setFlash(__d('users', 'Invalid Detail'));
@@ -197,12 +120,6 @@ class UserDetailsController extends UsersAppController {
 		$this->set(compact('users'));
 	}
 
-/**
- * Admin Delete
- *
- * @param string $id Detail ID
- * @return void
- */
 	public function admin_delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__d('users', 'Invalid id for Detail'));

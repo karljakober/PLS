@@ -1,33 +1,17 @@
 <?php
 App::uses('AppController', 'Controller');
-/**
- * Servers Controller
- *
- * @property Server $Server
- */
+
 class ServersController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
 	}
 
-/**
- * index method
- *
- * @return void
- */
 	public function index() {
 		$this->Server->recursive = 0;
 		$this->set('servers', $this->paginate());
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function view($id = null) {
 		if (!$this->Server->exists($id)) {
 			throw new NotFoundException(__('Invalid server'));
@@ -36,11 +20,6 @@ class ServersController extends AppController {
 		$this->set('server', $this->Server->find('first', $options));
 	}
 
-/**
- * add method
- *
- * @return void
- */
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Server->create();
@@ -56,13 +35,6 @@ class ServersController extends AppController {
 		$this->set(compact('lans'));
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function edit($id = null) {
 		if (!$this->Server->exists($id)) {
 			throw new NotFoundException(__('Invalid server'));
@@ -83,14 +55,6 @@ class ServersController extends AppController {
 		$this->set(compact('lans'));
 	}
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @throws MethodNotAllowedException
- * @param string $id
- * @return void
- */
 	public function delete($id = null) {
 		$this->Server->id = $id;
 		if (!$this->Server->exists()) {

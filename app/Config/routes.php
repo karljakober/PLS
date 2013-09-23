@@ -36,7 +36,7 @@
 	Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
 	Router::connect('/register', array('controller' => 'users', 'action' => 'register'));
 	Router::connect('/dashboard', array('controller' => 'users', 'action' => 'dashboard'));
-
+    Router::connect('/settings', array('controller' => 'users', 'action' => 'settings'));
 	//Router::connect('/*', array('controller' => 'pages', 'action' => 'display')); 
 	
 /**

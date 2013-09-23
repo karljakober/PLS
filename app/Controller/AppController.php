@@ -1,36 +1,7 @@
 <?php
-/**
- * Application level Controller
- *
- * This file is application-wide controller file. You can put all
- * application-wide controller-related methods here.
- *
- * PHP 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.Controller
- * @since         CakePHP(tm) v 0.2.9
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
- */
 
 App::uses('Controller', 'Controller');
 
-/**
- * Application Controller
- *
- * Add your application-wide methods in the class below, your controllers
- * will inherit them.
- *
- * @package       app.Controller
- * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
- */
 class AppController extends Controller {
     public $theme = false;
 
@@ -58,13 +29,13 @@ class AppController extends Controller {
 
         $this->Auth->authorize = 'Controller';
         
-        /*if ($this->Lan->active()) {
+        if ($this->Lan->active()) {
             $timeline_json = '/events/timeline_json';
         } else {
             $timeline_json = '/lans/timeline_json';
         }
-        $this->set('timeline_path', $timeline_json);*/
-        //$this->set('activeLan', $this->Lan->active());
+        $this->set('timeline_path', $timeline_json);
+        $this->set('activeLan', $this->Lan->active(true));
 
         if ($this->Auth->User('id')) {
             //setting for controllers
@@ -76,6 +47,19 @@ class AppController extends Controller {
                 $this->set('isAdmin', true);
             } else {
                 $this->set('isAdmin', false);
+            }
+            
+            // allowed pages when user does not have a username
+            $allowedPages = array(
+                '/settings',
+                '/logout'
+            );
+            
+            if (!in_array($this->params->here(), $allowedPages)) {
+                if ($user['User']['username'] == "") {
+                    $this->Session->setFlash('Looks like you signed up through steam! We need to know what to call you, and you will need to verify your email address before you can reserve your seat. Want to enter those now?', 'flash_notification');
+                    $this->redirect('/settings');
+                }
             }
 
             $navigationleft = array(
@@ -126,7 +110,7 @@ class AppController extends Controller {
     }
 
     private function allowAccess() {
-    // this actually searches the URL to see what controller you're accessing, and allows actions for that controller.
+        // this actually searches the URL to see what controller you're accessing, and allows actions for that controller.
         if(in_array($this->name, array('Pages'))) {
             $this->Auth->allow('display');
         }

@@ -1,34 +1,17 @@
 <?php
 App::uses('AppController', 'Controller');
-/**
- * Lans Controller
- *
- * @property Lan $Lan
- */
-class LansController extends AppController {
 
+class LansController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
 	}
 
-/**
- * index method
- *
- * @return void
- */
 	public function index() {
 		$this->Lan->recursive = 0;
 		$this->set('lans', $this->paginate());
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function view($id = null) {
 		if (!$this->Lan->exists($id)) {
 			throw new NotFoundException(__('Invalid lan'));
@@ -38,11 +21,6 @@ class LansController extends AppController {
 		$this->set('lanActive', $this->Lan->lanActive($id));
 	}
 
-/**
- * add method
- *
- * @return void
- */
 	public function admin_add() {
 		if ($this->request->is('post')) {
 			$this->Lan->create();
@@ -55,13 +33,6 @@ class LansController extends AppController {
 		}
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function admin_edit($id = null) {
 		if (!$this->Lan->exists($id)) {
 			throw new NotFoundException(__('Invalid lan'));
@@ -79,14 +50,6 @@ class LansController extends AppController {
 		}
 	}
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @throws MethodNotAllowedException
- * @param string $id
- * @return void
- */
 	public function admin_delete($id = null) {
 		$this->Lan->id = $id;
 		if (!$this->Lan->exists()) {

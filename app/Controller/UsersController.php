@@ -3,7 +3,7 @@ App::uses('UsersAppController', 'Controller');
 App::import('Vendor', 'openid', array('file' => 'openid.php'));
 App::uses('Option', 'Model');
 
-class UsersController extends UsersAppController {
+class UsersController extends AppController {
 
 	public $name = 'Users';
 	public $plugin = null;
@@ -92,7 +92,7 @@ class UsersController extends UsersAppController {
 		$this->Auth->authenticate = array(
 			'Form' => array(
 				'fields' => array(
-					'username' => 'email',
+					'username' => 'username',
 					'password' => 'password'),
 				'userModel' => $this->_pluginDot() . $this->modelClass,
 				'scope' => array(
@@ -706,6 +706,58 @@ class UsersController extends UsersAppController {
 		} else {
 			return new CakeEmail('default');
 		}
+	}
+	
+	public function settings() {
+	    $this->set('title_for_layout', 'Settings');
+        $user = $this->User->findById($this->Auth->User('id'));
+
+	    $error = false;
+	    if ($this->request->isPost()) {
+	        $this->User->id = $this->Auth->User('id');
+	        //if a username is posted, make sure we dont already have one
+	        if (isset($this->request->data['User']['username'])) {
+	            if ($user['User']['username'] == "") {
+	                $findUsername = $this->User->findByUsername($this->request->data['User']['username']);
+	                if ($findUsername) {
+	                    $this->Session->setFlash('This username is already taken!', 'flash_failure');
+                        $error = true;
+	                }
+	           }
+	        }
+	        //if a username is posted, make sure we dont already have one
+	        if (isset($this->request->data['User']['settingsemail'])) {
+	            if ($user['User']['email'] == "") {
+	                $findEmail = $this->User->findByEmail($this->request->data['User']['settingsemail']);
+	                if ($findEmail) {
+	                    $this->Session->setFlash('This email address is already taken!', 'flash_failure');
+	                    $error = true;
+	                }
+	            }
+	        }
+	        
+	        if (isset($this->request->data['User']['password1']) && isset($this->request->data['User']['password2'])) {
+	            if ($this->request->data['User']['password1'] != $this->request->data['User']['password2']) {
+	                $this->Session->setFlash('The passwords you have entered do not match.', 'flash_failure');
+	                $error = true;
+	            }
+	        }
+	        
+	        if (!$error) {
+	            $this->User->read(null, $this->Auth->User('id'));
+    	        if (isset($this->request->data['User']['username'])) {
+                    $this->User->set('username', $this->request->data['User']['username']);
+    	        }
+    	        if (isset($this->request->data['User']['settingsemail'])) {
+                    $this->User->set('email', $this->request->data['User']['settingsemail']);
+    	        }
+    	        if (isset($this->request->data['User']['password1'])) {
+                    $this->User->set('password', $this->User->hash($this->request->data['User']['password1'], 'sha1', true));
+    	        }
+    	        $this->User->save();
+                $this->Auth->login($user);
+	        }
+        }
 	}
 
 }

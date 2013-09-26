@@ -1,41 +1,11 @@
 <?php
-/**
- * Application level Controller
- *
- * This file is application-wide controller file. You can put all
- * application-wide controller-related methods here.
- *
- * PHP 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.Controller
- * @since         CakePHP(tm) v 0.2.9
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
- */
 
 App::uses('Controller', 'Controller');
 
-/**
- * Application Controller
- *
- * Add your application-wide methods in the class below, your controllers
- * will inherit them.
- *
- * @package       app.Controller
- * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
- */
 class AppController extends Controller {
-    public $theme = 'PONG';
+    public $theme = false;
 
 	public $components = array(
-		'DebugKit.Toolbar',
         'Auth' => array(
             'authorize' => array(
                 //'Actions' => array('actionPath' => 'controllers')
@@ -78,27 +48,54 @@ class AppController extends Controller {
             } else {
                 $this->set('isAdmin', false);
             }
+            
+            // allowed pages when user does not have a username
+            $allowedPages = array(
+                '/settings',
+                '/logout'
+            );
+            
+            if (!in_array($this->params->here(), $allowedPages)) {
+                if ($user['User']['username'] == "") {
+                    $this->Session->setFlash('Looks like you signed up through steam! We need to know what to call you, and you will need to verify your email address before you can reserve your seat. Want to enter those now?', 'flash_notification');
+                    $this->redirect('/settings');
+                }
+            }
 
-            $navigation = array(
-                'Seating Chart' => '/seating/', 
+            $navigationleft = array(
+                'Seating Chart' => '/SeatingChart/', 
                 'Tournaments' => '/tournaments/',
                 'Servers' => '/servers/',
                 'Sponsors' => '/pages/sponsors/', 
                 'Local Streamers' => '/streamers/', 
-                'Schedule' => '/schedule/',
-                'Log Out' => '/logout/'
+                'Schedule' => '/schedule/'
+            );
+            
+            if ($user['User']['username'] == "") {
+                $user['User']['username'] = 'Steam User';
+            }
+            
+            $navigationright = array(
+                $user['User']['username'] => array(
+                    'View Profile' => '/profile',
+                    'Settings' => '/settings/',
+                    'Log Out' => '/logout/',
+                )
             );
         } else {
-            $navigation = array(
-                'Log in' => '/login/',
-                'Register' => '/register/',
+            $navigationleft = array(
                 'Tournaments' => '/tournaments/',
                 'Servers' => '/servers/',
                 'Sponsors' => '/pages/sponsors/', 
-                'Seating Chart' => '/seating/'
+                'Seating Chart' => '/SeatingChart/'
+            );
+            $navigationright = array(
+                'Register' => '/register/',
+                'Log in' => '/login/'
             );
         }
-        $this->set('navigation', $navigation);
+        $this->set('navigationleft', $navigationleft);
+        $this->set('navigationright', $navigationright);
 
         $this->set('streamList', $this->User->getStreamerList());
     }
@@ -113,12 +110,15 @@ class AppController extends Controller {
     }
 
     private function allowAccess() {
-    // this actually searches the URL to see what controller you're accessing, and allows actions for that controller.
+        // this actually searches the URL to see what controller you're accessing, and allows actions for that controller.
         if(in_array($this->name, array('Pages'))) {
             $this->Auth->allow('display');
         }
         if(in_array($this->name, array('Lans', 'Servers', 'Tournaments'))) {
             $this->Auth->allow('index', 'view');
+        }
+        if(in_array($this->name, array('Users'))) {
+            $this->Auth->allow('steam_login');
         }
 
     }

@@ -142,7 +142,7 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
-
+CakePlugin::load('Migrations');
 CakePlugin::loadAll(array('ignoreMissing' => true)); 
 
 /**

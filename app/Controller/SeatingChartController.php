@@ -1,15 +1,20 @@
 <?php
 App::uses('AppController', 'Controller');
 
-class LansController extends AppController {
+class SeatingChartController extends AppController {
+    
+    public $uses = array('SeatingChart', 'SeatingChartTile');
 
 	public function beforeFilter() {
 		parent::beforeFilter();
 	}
 
 	public function index() {
-		$this->Lan->recursive = 0;
-		$this->set('lans', $this->paginate());
+	    $chartId = 2;
+	    $seatingChart = $this->SeatingChart->findById($chartId);
+	    $seatingChartTiles = $this->SeatingChartTile->findAllBySeatingChartId($chartId);
+	    pr($seatingChartTiles);
+	    pr($seatingChart);
 	}
 
 	public function view($id = null) {
@@ -30,6 +35,38 @@ class LansController extends AppController {
 			} else {
 				$this->Session->setFlash(__('The lan could not be saved. Please, try again.'));
 			}
+		}
+	}
+	
+	public function admin_add_seating_chart() {
+	    $this->set('js_include', 'admin_add_seating_chart.js');
+	    
+		if ($this->request->is('post')) {
+	        $this->autoRender = false;
+		    $this->layout = 'ajax';
+            $jsonData = file_get_contents("php://input");
+            if(isset($jsonData) && !empty($jsonData)) {
+                $data = json_decode($jsonData,true);
+                $this->SeatingChart->create();
+                $this->SeatingChart->set('name', $data['name']);
+                $this->SeatingChart->set('width', $data['width']);
+                $this->SeatingChart->set('height', $data['height']);
+                $this->SeatingChart->save();
+                $chartId = $this->SeatingChart->id;
+                
+                foreach ($data['tiles'] as $tile) {
+                    $this->SeatingChartTile->create();
+                    $this->SeatingChartTile->set('seating_chart_id', $chartId);
+                    $this->SeatingChartTile->set('x', $tile['x']);
+                    $this->SeatingChartTile->set('y', $tile['y']);
+                    $this->SeatingChartTile->set('tile_id', $tile['tileName']);
+                    if (isset($tile['seatId'])) {
+                        $this->SeatingChartTile->set('seat_number', $tile['seatId']);
+                    }
+                    $this->SeatingChartTile->save();
+                }
+            }
+            echo 'success';
 		}
 	}
 

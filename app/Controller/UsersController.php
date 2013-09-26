@@ -1,50 +1,13 @@
 <?php
-/**
- * Copyright 2010 - 2013, Cake Development Corporation (http://cakedc.com)
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright Copyright 2010 - 2013, Cake Development Corporation (http://cakedc.com)
- * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
- */
-
 App::uses('UsersAppController', 'Controller');
+App::import('Vendor', 'openid', array('file' => 'openid.php'));
+App::uses('Option', 'Model');
 
-/**
- * Users Users Controller
- *
- * @package       Users
- * @subpackage    Users.Controller
- * @property	  AuthComponent $Auth
- * @property	  CookieComponent $Cookie
- * @property	  PaginatorComponent $Paginator
- * @property	  SecurityComponent $Security
- * @property	  SessionComponent $Session
- * @property	  User $User
- * @property	  RememberMeComponent $RememberMe
- */
-class UsersController extends UsersAppController {
+class UsersController extends AppController {
 
-/**
- * Controller name
- *
- * @var string
- */
 	public $name = 'Users';
-
-/**
- * If the controller is a plugin controller set the plugin name
- *
- * @var mixed
- */
 	public $plugin = null;
-
-/**
- * Helpers
- *
- * @var array
- */
+    public $uses = array('User', 'Option');
 	public $helpers = array(
 		'Html',
 		'Form',
@@ -52,11 +15,6 @@ class UsersController extends UsersAppController {
 		'Time',
 		'Text');
 
-/**
- * Components
- *
- * @var array
- */
 	public $components = array(
 		'Auth',
 		'Session',
@@ -66,24 +24,11 @@ class UsersController extends UsersAppController {
 		'Search.Prg',
 		'RememberMe');
 
-/**
- * Preset vars
- *
- * @var array $presetVars
- * @link https://github.com/CakeDC/search
- */
 	public $presetVars = array(
 		array('field' => 'search', 'type' => 'value'),
 		array('field' => 'username', 'type' => 'value'),
 		array('field' => 'email', 'type' => 'value'));
 
-/**
- * Constructor
- *
- * @param CakeRequest $request Request object for this controller. Can be null for testing,
- *  but expect that features that use the request parameters will not work.
- * @param CakeResponse $response Response object for this controller.
- */
 	public function __construct($request, $response) {
 		$this->_setupComponents();
 		$this->_setupHelpers();
@@ -91,13 +36,6 @@ class UsersController extends UsersAppController {
 		$this->_reInitControllerName();
 	}
 
-/**
- * Providing backward compatibility to a fix that was just made recently to the core
- * for users that want to upgrade the plugin but not the core
- *
- * @link http://cakephp.lighthouseapp.com/projects/42648-cakephp/tickets/3550-inherited-controllers-get-wrong-property-names
- * @return void
- */
 	protected function _reInitControllerName() {
 		$name = substr(get_class($this), 0, -10);
 		if ($this->name === null) {
@@ -107,11 +45,6 @@ class UsersController extends UsersAppController {
 		}
 	}
 
-/**
- * Returns $this->plugin with a dot, used for plugin loading using the dot notation
- *
- * @return mixed string|null
- */
 	protected function _pluginDot() {
 		if (is_string($this->plugin)) {
 			return $this->plugin . '.';
@@ -119,34 +52,18 @@ class UsersController extends UsersAppController {
 		return $this->plugin;
 	}
 
-/**
- * Setup components based on plugin availability
- *
- * @return void
- * @link https://github.com/CakeDC/search
- */
 	protected function _setupComponents() {
 		if (App::import('Component', 'Search.Prg')) {
 			$this->components[] = 'Search.Prg';
 		}
 	}
 
-/**
- * Setup helpers based on plugin availability
- *
- * @return void
- */
 	protected function _setupHelpers() {
 		if (App::import('Helper', 'Goodies.Gravatar')) {
 			$this->helpers[] = 'Goodies.Gravatar';
 		}
 	}
 
-/**
- * beforeFilter callback
- *
- * @return void
- */
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->_setupAuth();
@@ -164,7 +81,7 @@ class UsersController extends UsersAppController {
  * @return void
  */
 	protected function _setupAuth() {
-		$this->Auth->allow('register', 'reset', 'verify', 'logout', 'view', 'reset_password', 'login');
+		$this->Auth->allow('register', 'reset', 'verify', 'logout', 'view', 'reset_password', 'login', 'steam_login');
 		if (!is_null(Configure::read('allowRegistration')) && !Configure::read('allowRegistration')) {
 			$this->Auth->deny('register');
 		}
@@ -175,7 +92,7 @@ class UsersController extends UsersAppController {
 		$this->Auth->authenticate = array(
 			'Form' => array(
 				'fields' => array(
-					'username' => 'email',
+					'username' => 'username',
 					'password' => 'password'),
 				'userModel' => $this->_pluginDot() . $this->modelClass,
 				'scope' => array(
@@ -361,7 +278,7 @@ class UsersController extends UsersAppController {
  */
 	public function register() {
 		if ($this->Auth->user()) {
-			$this->Session->setFlash(__d('users', 'You are already registered and logged in!'));
+			$this->Session->setFlash(__d('users', 'You are already registered and logged in!'), 'flash_notification');
 			$this->redirect('/');
 		}
 
@@ -369,12 +286,12 @@ class UsersController extends UsersAppController {
 			$user = $this->{$this->modelClass}->add($this->request->data, array('emailVerification' => false));
 			if ($user !== false) {
 				//$this->_sendVerificationEmail($this->{$this->modelClass}->data);
-				//$this->Session->setFlash(__d('users', 'Your account has been created. You should receive an e-mail shortly to authenticate your account. Once validated you will be able to login.'));
+				$this->Session->setFlash(__d('users', 'Your account has been created.'), 'flash_success');
 				$this->redirect(array('action' => 'login'));
 			} else {
 				unset($this->request->data[$this->modelClass]['password']);
 				unset($this->request->data[$this->modelClass]['temppassword']);
-				$this->Session->setFlash(__d('users', 'Your account could not be created. Please, try again.'), 'default', array('class' => 'message warning'));
+				$this->Session->setFlash(__d('users', 'Your account could not be created. Please, try again.'), 'flash_failure');
 			}
 		}
 	}
@@ -396,7 +313,7 @@ class UsersController extends UsersAppController {
 				if ($this->here == $this->Auth->loginRedirect) {
 					$this->Auth->loginRedirect = '/';
 				}
-				$this->Session->setFlash(sprintf(__d('users', '%s you have successfully logged in'), $this->Auth->user('username')));
+				$this->Session->setFlash(sprintf(__d('users', '%s you have successfully logged in'), $this->Auth->user('username')), 'flash_success');
 				if (!empty($this->request->data)) {
 					$data = $this->request->data[$this->modelClass];
 					if (empty($this->request->data[$this->modelClass]['remember_me'])) {
@@ -412,7 +329,7 @@ class UsersController extends UsersAppController {
 
 				$this->redirect($this->Auth->redirect($data['return_to']));
 			} else {
-				$this->Session->setFlash(__d('users', 'Invalid e-mail / password combination.  Please try again'));
+				$this->Session->setFlash(__d('users', 'Invalid e-mail / password combination.  Please try again'), 'flash_failure');
 			}
 		}
 		if (isset($this->request->params['named']['return_to'])) {
@@ -423,7 +340,53 @@ class UsersController extends UsersAppController {
 		$allowRegistration = Configure::read('allowRegistration');
 		$this->set('allowRegistration', (is_null($allowRegistration) ? true : $allowRegistration));
 	}
-
+	
+	public function steam_login() {
+	    $api_key = $this->Option->getValue('steam_api_key');
+	    //if theres no api key, this functionality wont work.
+	    if (!api_key) {
+	        $this->redirect('/login');
+	    }
+	    try {
+            // Change 'localhost' to your domain name.
+            $openid = new LightOpenID($_SERVER['SERVER_NAME']);
+            if(!$openid->mode) {
+                $openid->identity = 'http://steamcommunity.com/openid';
+                $this->redirect($openid->authUrl());
+            } elseif($openid->mode == 'cancel') {
+                    $this->Session->setFlash('FOR SOME REASON you clicked cancel on the steam connect page! maybe you want to register through our website instead?', 'flash_failure');
+                    $this->redirect('/login');
+            } else {
+                if($openid->validate()) { 
+                    $id = $openid->identity;
+                    $ptn = "/^http:\/\/steamcommunity\.com\/openid\/id\/(7[0-9]{15,25}+)$/";
+                    preg_match($ptn, $id, $matches);
+                    
+                    $user = $this->User->findBySteamId($matches[1]);
+                    if ($user) {
+                        //user is made, force login, go to this page again to ensure they have a username
+                        $this->Auth->login($user['User']);
+                        $this->redirect('/dashboard');
+                    } else {
+                        //no user, lets sign them up
+                        $this->{$this->modelClass}->create();
+                        $this->{$this->modelClass}->set('steam_id', $matches[1]);
+                        $this->{$this->modelClass}->save(null, false);
+                        $user = $this->{$this->modelClass}->findBySteamId($matches[1]);
+                        $this->Auth->login($user['User']);
+                        pr($user);
+                    }
+                } else {
+                    $this->Session->setFlash('Something went wrong with the steam server, or you entered your credentials incorrectly. Try again?', 'flash_failure');
+                    $this->redirect('/login');
+                }
+        
+            }
+        } catch(ErrorException $e) {
+            echo $e->getMessage();
+        }
+	}
+	
 /**
  * Search - Requires the CakeDC Search plugin to work
  *
@@ -478,7 +441,7 @@ class UsersController extends UsersAppController {
 		$this->Session->destroy();
 		$this->Cookie->destroy();
 		$this->RememberMe->destroyCookie();
-		$this->Session->setFlash(sprintf(__d('users', '%s you have successfully logged out'), $user[$this->{$this->modelClass}->displayField]));
+		$this->Session->setFlash(sprintf(__d('users', 'You have successfully logged out')), 'flash_success');
 		$this->redirect($this->Auth->logout());
 	}
 
@@ -743,6 +706,58 @@ class UsersController extends UsersAppController {
 		} else {
 			return new CakeEmail('default');
 		}
+	}
+	
+	public function settings() {
+	    $this->set('title_for_layout', 'Settings');
+        $user = $this->User->findById($this->Auth->User('id'));
+
+	    $error = false;
+	    if ($this->request->isPost()) {
+	        $this->User->id = $this->Auth->User('id');
+	        //if a username is posted, make sure we dont already have one
+	        if (isset($this->request->data['User']['username'])) {
+	            if ($user['User']['username'] == "") {
+	                $findUsername = $this->User->findByUsername($this->request->data['User']['username']);
+	                if ($findUsername) {
+	                    $this->Session->setFlash('This username is already taken!', 'flash_failure');
+                        $error = true;
+	                }
+	           }
+	        }
+	        //if a username is posted, make sure we dont already have one
+	        if (isset($this->request->data['User']['settingsemail'])) {
+	            if ($user['User']['email'] == "") {
+	                $findEmail = $this->User->findByEmail($this->request->data['User']['settingsemail']);
+	                if ($findEmail) {
+	                    $this->Session->setFlash('This email address is already taken!', 'flash_failure');
+	                    $error = true;
+	                }
+	            }
+	        }
+	        
+	        if (isset($this->request->data['User']['password1']) && isset($this->request->data['User']['password2'])) {
+	            if ($this->request->data['User']['password1'] != $this->request->data['User']['password2']) {
+	                $this->Session->setFlash('The passwords you have entered do not match.', 'flash_failure');
+	                $error = true;
+	            }
+	        }
+	        
+	        if (!$error) {
+	            $this->User->read(null, $this->Auth->User('id'));
+    	        if (isset($this->request->data['User']['username'])) {
+                    $this->User->set('username', $this->request->data['User']['username']);
+    	        }
+    	        if (isset($this->request->data['User']['settingsemail'])) {
+                    $this->User->set('email', $this->request->data['User']['settingsemail']);
+    	        }
+    	        if (isset($this->request->data['User']['password1'])) {
+                    $this->User->set('password', $this->User->hash($this->request->data['User']['password1'], 'sha1', true));
+    	        }
+    	        $this->User->save();
+                $this->Auth->login($user);
+	        }
+        }
 	}
 
 }

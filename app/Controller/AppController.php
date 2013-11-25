@@ -14,7 +14,7 @@ class AppController extends Controller {
         'Session'
     );
 
-    public $uses = array('Lan', 'User');
+    public $uses = array('Lan', 'User', 'Message');
 
     public $helpers = array('Html', 'Form', 'Session');
 
@@ -55,12 +55,25 @@ class AppController extends Controller {
                 '/logout'
             );
             
-            if (!in_array($this->params->here(), $allowedPages)) {
+            /*if (!in_array($this->params->here(), $allowedPages)) {
                 if ($user['User']['username'] == "") {
                     $this->Session->setFlash('Looks like you signed up through steam! We need to know what to call you, and you will need to verify your email address before you can reserve your seat. Want to enter those now?', 'flash_notification');
                     $this->redirect('/settings');
                 }
-            }
+            }*/
+            
+            $messages = $this->Message->find('all', array(
+                'conditions' => array(
+                    'or' => array(
+                        'Message.username' => $user['User']['username'],
+                        'Message.to' => $user['User']['username'],
+                        'Message.to is null'
+                    )
+                ),
+                'order' => array('created' => 'asc')
+            ));
+            
+            $this->set('messages', $messages);
 
             $navigationleft = array(
                 'Seating Chart' => '/SeatingChart/', 
@@ -78,8 +91,8 @@ class AppController extends Controller {
             $navigationright = array(
                 $user['User']['username'] => array(
                     'View Profile' => '/profile',
-                    'Settings' => '/settings/',
-                    'Log Out' => '/logout/',
+                    'Settings' => '/settings',
+                    'Log Out' => '/logout',
                 )
             );
         } else {
@@ -118,7 +131,7 @@ class AppController extends Controller {
             $this->Auth->allow('index', 'view');
         }
         if(in_array($this->name, array('Users'))) {
-            $this->Auth->allow('steam_login');
+            $this->Auth->allow('steam_login', 'login', 'register');
         }
 
     }

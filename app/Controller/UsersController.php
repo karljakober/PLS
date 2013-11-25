@@ -367,6 +367,12 @@ class UsersController extends AppController {
                         //user is made, force login, go to this page again to ensure they have a username
                         $this->Auth->login($user['User']);
                         $this->redirect('/dashboard');
+                    } elseif ($this->Auth->User('id')) {
+                        $this->User->read(null, $this->Auth->User('id'));
+                        $this->User->set('steam_id', $matches[1]);
+                        $this->User->save();
+                        $this->Session->setFlash('Steam account linked successfully!', 'flash_success');
+                        $this->redirect('/dashboard');
                     } else {
                         //no user, lets sign them up
                         $this->{$this->modelClass}->create();
@@ -374,7 +380,6 @@ class UsersController extends AppController {
                         $this->{$this->modelClass}->save(null, false);
                         $user = $this->{$this->modelClass}->findBySteamId($matches[1]);
                         $this->Auth->login($user['User']);
-                        pr($user);
                     }
                 } else {
                     $this->Session->setFlash('Something went wrong with the steam server, or you entered your credentials incorrectly. Try again?', 'flash_failure');

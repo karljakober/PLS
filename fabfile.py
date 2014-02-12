@@ -325,6 +325,8 @@ def upload_environment_templates(name):
     remote_path = template["remote_path"]
     owner = template.get("owner")
     mode = template.get("mode")
+    
+    print(blue("Found template: %s" % name))
 
     if not exists("%s" % remote_directory):
         sudo("mkdir %s" % remote_directory)

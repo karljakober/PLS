@@ -136,11 +136,11 @@ def bootstrap():
     #set variable so it wont run git commands twice if we bootstrap
     env.bootstrapping = True
 
-    create_required_folders()
-
     init_db()
 
     deploy()
+    
+    create_required_folders()
     
 
 def deploy():

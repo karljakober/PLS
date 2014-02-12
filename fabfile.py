@@ -306,12 +306,13 @@ def upload_environment_templates(name):
     remote_directory = template["remote_directory"]
     remote_path = template["remote_path"]
     
-    print(blue("Found template: %s" % name))
-
     if not exists("%s" % remote_directory):
         sudo("mkdir %s" % remote_directory)
+        
+    print(blue("Found template: %s" % name))
 
-    upload_template(local_path, remote_path, env, use_sudo=True, backup=False)
+    show('debug', 'running', 'stdout', 'stderr'):
+      upload_template(local_path, remote_path, env, use_sudo=True, backup=False)
 
     print(blue("Uploaded template: %s" % name))
 

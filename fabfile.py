@@ -97,18 +97,8 @@ def bootstrap():
     Runs once
     """
     sudo("apt-get update")
-    
-    #install vim to help edit files faster
-    apt("vim")
 
-    #install apc prerequisites
-    apt("make libpcre3 libpcre3-dev re2c")
-    
-    #install_dependencies and lamp
-    apt("tasksel rsync")
-    apt("apache2 libapache2-mod-php5 mysql-server libapache2-mod-auth-mysql \
-            php5-mysql")
-    sudo("a2enmod php5")
+    #enable cakephp dependencies
     sudo("a2enmod rewrite") 
     sudo("a2enmod headers")
     sudo("a2enmod expires")
@@ -125,9 +115,6 @@ def bootstrap():
     #apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1 for ServerName
     sudo('''sh -c "echo 'ServerName PLS' > /etc/apache2/httpd.conf"''')
 
-    #install git
-    apt("git-core")
-
     #install cakephp command line tools
     apt("cakephp-scripts")
 
@@ -140,8 +127,6 @@ def bootstrap():
 
     deploy()
     
-    create_required_folders()
-    
 
 def deploy():
     #UPDATE the server with the newest updates from github.
@@ -150,7 +135,8 @@ def deploy():
 
     if env.bootstrapping == False:
         git_website()
-        create_required_folders()
+
+    create_required_folders()
 
     #put new templates up every time
     put_templates()
@@ -232,6 +218,10 @@ def create_required_folders():
 
 
 def init_db():
+    #ensure mysql is running
+    with settings(warn_only=True):
+        sudo("service mysql start")
+        
     mysql_create_user(env.db_user, env.db_password)
 
     try:

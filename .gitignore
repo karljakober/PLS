@@ -6,8 +6,7 @@
 /tags
 /log
 
-/app/Config/envconfig.php
+/app/Config/cakeconfig.php
 /.Trash-1000
-.vagrant
 *.pyc
 /node_modules

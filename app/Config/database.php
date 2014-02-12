@@ -58,8 +58,8 @@
  * For MySQL to connect via socket specify the `unix_socket` parameter instead of `host` and `port`
  */
 
-if (file_exists(ROOT . '/app/Config/envconfig.php')) {
-  include_once ROOT . '/app/Config/envconfig.php';
+if (file_exists(ROOT . '/app/Config/cakeconfig.php')) {
+  include_once ROOT . '/app/Config/cakeconfig.php';
 } 
 
 class DATABASE_CONFIG {

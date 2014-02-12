@@ -65,9 +65,9 @@ def config_templates():
             % env.project_name,
     },
     "config": {
-        "local_path": "conf/envconfig.php",
+        "local_path": "conf/cakeconfig.php",
         "remote_directory": "%s/app/Config/" % env.project_directory,
-        "remote_path": "%s/app/Config/envconfig.php" % env.project_directory,
+        "remote_path": "%s/app/Config/cakeconfig.php" % env.project_directory,
     },
 }
 
@@ -244,7 +244,6 @@ def git_website():
 
             run("git checkout %s" % env.branch)
             #make sure we dont have any non-overwritable local changes
-            #TODO, remove envconfig.php from repo, and remove the reset and clean commands.
             run("git reset --hard HEAD")
             #clean any untracked files so we have no conflicts
             run("git clean -f")

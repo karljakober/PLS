@@ -37,6 +37,7 @@ from fabric.colors import white, blue, red
 from fabric.api import env, run as _run, sudo, local, put, cd, settings, hide, prompt, get
 from fabric.utils import puts
 from pprint import pprint
+from fabric.context_managers import show
 
 import time
 import os

@@ -344,7 +344,7 @@ class UsersController extends AppController {
 	public function steam_login() {
 	    $api_key = $this->Option->getValue('steam_api_key');
 	    //if theres no api key, this functionality wont work.
-	    if (!api_key) {
+	    if (!$api_key) {
 	        $this->redirect('/login');
 	    }
 	    try {

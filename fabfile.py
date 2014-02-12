@@ -152,8 +152,6 @@ def deploy():
         git_website()
         create_required_folders()
 
-    #update_schema()
-
     #put new templates up every time
     put_templates()
 
@@ -168,6 +166,8 @@ def deploy():
     sudo('a2dissite default')
 
     restart_server()
+
+    upgrade_schema()
 
 
 def start_server():
@@ -336,11 +336,6 @@ def upload_environment_templates(name):
         sudo("chmod %s %s" % (mode, remote_path))
 
     print(blue("Uploaded template: %s" % name))
-
-
-def update_schema():
-    with cd("%s/app/" % env.project_directory):
-        run("Console/cake Migrations.migration run all")
 
 def generate_schema():
     with cd("%s/app/" % env.project_directory):

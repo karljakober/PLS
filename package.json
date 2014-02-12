@@ -1,0 +1,27 @@
+{
+  "name": "PLS",
+  "version": "0.0.0",
+  "description": "Pong Lan Software",
+  "main": "messageServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/KarlJakober/PLS.git"
+  },
+  "keywords": [
+    "lan"
+  ],
+  "author": "Karl Jakober",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/KarlJakober/PLS/issues"
+  },
+  "dependencies": {
+    "socket.io": "~0.9.16",
+    "express": "~3.4.8",
+    "JSON2": "~0.1.0",
+    "mcrypt": "0.0.6"
+  }
+}

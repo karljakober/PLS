@@ -305,8 +305,6 @@ def upload_environment_templates(name):
     local_path = template["local_path"]
     remote_directory = template["remote_directory"]
     remote_path = template["remote_path"]
-    owner = template.get("owner")
-    mode = template.get("mode")
     
     print(blue("Found template: %s" % name))
 
@@ -314,10 +312,6 @@ def upload_environment_templates(name):
         sudo("mkdir %s" % remote_directory)
 
     upload_template(local_path, remote_path, env, use_sudo=True, backup=False)
-    if owner:
-        sudo("chown %s %s" % (owner, remote_path))
-    if mode:
-        sudo("chmod %s %s" % (mode, remote_path))
 
     print(blue("Uploaded template: %s" % name))
 

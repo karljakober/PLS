@@ -20,7 +20,7 @@ tempdev <will be deleted>               from github
                                           the conf/ directory
 
 Useful commands:
-`fab dev bootstrap` : after running vagrant up, this will install PLS
+`fab dev bootstrap` : this will install PLS
                       locally
 `fab dev deploy` : this should be used to update to the newest version of the
                    website locally
@@ -44,9 +44,6 @@ import string
 import random
 
 #environment variables shared
-#env.ssh_config_path = 'conf/ssh_config'
-#env.use_ssh_config = True
-env.forward_agent = True
 env.debug = False
 env.project_name = 'PLS'
 env.project_title = 'Pong Lan Software'
@@ -89,36 +86,24 @@ def config_templates():
 }
 
 def dev():
-    vagrant_config = get_vagrant_parameters()
     env.name = 'development'
-    env.user = vagrant_config['User']
     env.db_name = 'pls_development'
     env.db_user = env.user
     env.db_password = 'devpassword'
     env.domain = 'localhost'
-    env.hosts = ['%s:%s' % (vagrant_config['HostName'],
-                    vagrant_config['Port'])]
-    env.key_filename = vagrant_config['IdentityFile']
+    env.hosts = [env.domain]
     env.debug = True
     env.project_directory = '/home/%s/%s' % (env.user, env.project_name)
     env.project_root = '/home/%s' % env.user
     env.is_live = 0
     config_templates()
 
-
-def get_ssh_param(params, key):
-    import re
-    return filter(lambda s: re.search(r'^%s' % key, s), params)[0].split()[1]
-
-
 def apt(packages):
     return sudo("apt-get install -y -q " + packages)
-
 
 def run(command, show=True):
     with hide("running"):
         return _run(command)
-
 
 def bootstrap():
     print(white("Creating environment %s" % env.name))
@@ -126,12 +111,6 @@ def bootstrap():
     """
     Runs once
     """
-    append("~/.bash_profile", "alias vi=vim")
-    append("~/.bash_profile", "alias l=ls")
-    append("~/.bash_profile", "alias ll='ls -al'")
-    append("~/.bash_profile", "export PROJECT_NAME=%s" % env.project_name)
-    append("~/.bash_profile", "export VAGRANT_ROOT=/vagrant/deploy")
-
     sudo("apt-get update")
     
     #install vim to help edit files faster
@@ -139,13 +118,7 @@ def bootstrap():
 
     #install apc prerequisites
     apt("make libpcre3 libpcre3-dev re2c")
-
-    #only install samba if we are bootstrapping locally
-    if env.name == "development":
-        apt("samba")
-        #we only need to run this once, so it goes in bootstrap not deploy
-        sudo("smbpasswd -a %s" % env.user) # You can't set a SAMBA user if they don't exist on the system /etc/passwd. Also, this does not work without a password given at command line.
-
+    
     #install_dependencies and lamp
     apt("tasksel rsync")
     apt("apache2 libapache2-mod-php5 mysql-server libapache2-mod-auth-mysql \
@@ -172,14 +145,6 @@ def bootstrap():
 
     #install cakephp command line tools
     apt("cakephp-scripts")
-
-    print(white("If you have an authentication error occurs connecting to git, run $ ssh-add"))
-    
-    #check key to see if it exists, only generate new key if one isnt already made.
-    #not working properly.
-    if not os.path.exists("~/.ssh/id_rsa"):
-        print(white("Trying to run automatically, please enter your desired password when prompted."))
-        local("ssh-add")
 
     git_website()
 
@@ -322,20 +287,6 @@ def git_website():
             run("git checkout %s" % env.branch)
             #then pull
             run("git pull %s %s" % (env.repository, env.branch))
-
-
-def get_vagrant_parameters():
-    """
-    Parse vagrant's ssh-config for given key's value
-    This is helpful when dealing with multiple vagrant instances.
-    """
-    result = local('vagrant ssh-config', capture=True)
-    conf = {}
-    for line in iter(result.splitlines()):
-        parts = line.split()
-        conf[parts[0]] = ' '.join(parts[1:])
-
-    return conf
 
 
 def backup_database():

@@ -63,11 +63,6 @@ def config_templates():
         "remote_path": "/etc/apache2/sites-available/%s"
             % env.project_name,
     },
-    "php": {
-        "local_path": "conf/php.ini",
-        "remote_directory": "/etc/php5/apache2/",
-        "remote_path": "/etc/php5/apache2/php.ini",
-    },
     "config": {
         "local_path": "conf/envconfig.php",
         "remote_directory": "%s/app/Config/" % env.project_directory,
@@ -161,10 +156,6 @@ def deploy():
 
     #put new templates up every time
     put_templates()
-
-    #We need to restart samba if this is a dev server
-    if env.name == "development":
-        sudo("service smbd restart")
 
     #make sure we have ssl enabled
     sudo('a2enmod ssl') 

@@ -311,7 +311,7 @@ def upload_environment_templates(name):
         
     print(blue("Found template: %s" % name))
 
-    show('debug', 'running', 'stdout', 'stderr'):
+    with show('debug', 'running', 'stdout', 'stderr'):
       upload_template(local_path, remote_path, env, use_sudo=True, backup=False)
 
     print(blue("Uploaded template: %s" % name))

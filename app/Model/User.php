@@ -10,16 +10,15 @@
  */
 
 App::uses('Security', 'Utility');
-App::uses('UsersAppModel', 'Model');
 App::uses('openid', 'Vendor');
 
 /**
  * Users Plugin User Model
  *
- * @package User
+ * @package Userf
  * @subpackage User.Model
  */
-class User extends UsersAppModel {
+class User extends AppModel {
 
 /**
  * Name
@@ -877,4 +876,5 @@ class User extends UsersAppModel {
 		}
 		return implode(',', $twitch_id_list);
 	}
+	
 }

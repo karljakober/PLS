@@ -9,7 +9,6 @@
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-App::uses('UsersAppModel', 'Model');
 
 /**
  * Users Detail Model
@@ -17,7 +16,7 @@ App::uses('UsersAppModel', 'Model');
  * @package users
  * @subpackage users.models
  */
-class UserDetail extends UsersAppModel {
+class UserDetail extends AppModel {
 
 /**
  * Name

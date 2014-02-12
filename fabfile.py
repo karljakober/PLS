@@ -103,20 +103,12 @@ def bootstrap():
     sudo("a2enmod headers")
     sudo("a2enmod expires")
 
-    #make sure we have curl instlalled before we restart the server
-    apt("curl libcurl3 libcurl3-dev php5-curl")
-
     #ensure apache is started at this point
     restart_server()
-
-    apt("php-pear php5-dev")
 
     #run this AFTER we install apache, or the following error will happen
     #apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1 for ServerName
     sudo('''sh -c "echo 'ServerName PLS' > /etc/apache2/httpd.conf"''')
-
-    #install cakephp command line tools
-    apt("cakephp-scripts")
 
     git_website()
 

@@ -68,20 +68,10 @@ def config_templates():
         "remote_directory": "/etc/php5/apache2/",
         "remote_path": "/etc/php5/apache2/php.ini",
     },
-    "phpcli": {
-        "local_path": "conf/php-cli.ini",
-        "remote_directory": "/etc/php5/cli/",
-        "remote_path": "/etc/php5/cli/php.ini",
-    },
     "config": {
         "local_path": "conf/envconfig.php",
         "remote_directory": "%s/app/Config/" % env.project_directory,
         "remote_path": "%s/app/Config/envconfig.php" % env.project_directory,
-    },
-    "samba": {
-        "local_path": "conf/smb.conf",
-        "remote_directory": "/etc/samba/",
-        "remote_path": "/etc/samba/smb.conf",
     },
 }
 

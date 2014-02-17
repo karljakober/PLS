@@ -269,7 +269,7 @@ Cache::config('_cake_core_', array(
 	'path' => CACHE . 'persistent' . DS,
 	'serialize' => ($engine === 'File'),
 	'duration' => $duration,
-  'mask' => 0666
+    'mask' => 0666
 ));
 
 /**
@@ -282,5 +282,5 @@ Cache::config('_cake_model_', array(
 	'path' => CACHE . 'models' . DS,
 	'serialize' => ($engine === 'File'),
 	'duration' => $duration,
-  'mask' => 0666
+    'mask' => 0666
 ));

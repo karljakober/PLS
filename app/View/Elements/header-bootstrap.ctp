@@ -13,8 +13,13 @@
       <script src="/bootstrap/assets/js/html5shiv.js"></script>
       <script src="/bootstrap/assets/js/respond.min.js"></script>
     <![endif]-->
+    
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <link href="/css/nanoscroller.css" rel="stylesheet">
+
     <script type="text/javascript">
-      (function() {
+      $(function() {
         var usernames = "<?php echo $streamList; ?>";
     
         setInterval(function(){
@@ -27,6 +32,7 @@
             }
           });
         }, 60000);
-       })(); 
+        $(".nano").nanoScroller();
+       }); 
     </script>
   </head>

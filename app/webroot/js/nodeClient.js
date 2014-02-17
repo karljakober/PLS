@@ -1,9 +1,9 @@
-var socket = io.connect( 'http://karljakober.kd.io:8080' );
+var socket = io.connect( 'http://' + location.hostname + ':8080' );
 
 var body = document.body;
 
 $( "body" ).toggleClass( "cbp-spmenu-push" );
-$('.cbp-spmenu').scrollTop($('.cbp-spmenu')[0].scrollHeight);
+$(".nano").nanoScroller({ scroll: 'bottom' });
 
 $( "#showLeftPush" ).click( function() {
     //classie.toggle( this, 'active' );
@@ -66,20 +66,20 @@ $( "#messageSubmit" ).click( function() {
 
 socket.on( 'message', function( data ) {
     var newMsgContent = '<li class="list-group-item"><h5 class="list-group-item-heading">' + data.username + '</h5><p class="list-group-item-text">' + data.message + '</p>';
-    $("#messages li:last-child").before ( newMsgContent );
-    scrollToBot();
+    $("#messages li:last-child").after ( newMsgContent );
+    $(".nano").nanoScroller({ scroll: 'bottom' });
 });
 
 socket.on( 'privatemessage', function( data ) {
     var newMsgContent = '<li class="list-group-item"><h5 class="list-group-item-heading">' + data.username + ' > ' + data.to + '</h5><p class="list-group-item-text">' + data.message + '</p>';
-    $("#messages li:last-child").before ( newMsgContent ); 
-    scrollToBot();
+    $("#messages li:last-child").after ( newMsgContent ); 
+    $(".nano").nanoScroller({ scroll: 'bottom' });
 });
 
 function scrollToBot() {
-    var elem = $('.cbp-spmenu');
-    var atBottom = (elem[0].scrollHeight - elem.scrollTop() == elem.outerHeight());
+    var elem = $('.nano-client');
+    var atBottom = (elem.scrollHeight - elem.scrollTop() == elem.outerHeight());
     if (atBottom) {
-        $('.cbp-spmenu').scrollTop($('.cbp-spmenu')[0].scrollHeight);
+        $('.nano-client').scrollTop($('.nano-client').scrollHeight);
     }
 }

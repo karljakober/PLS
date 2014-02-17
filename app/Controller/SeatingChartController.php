@@ -27,18 +27,6 @@ class SeatingChartController extends AppController {
 	}
 
 	public function admin_add() {
-		if ($this->request->is('post')) {
-			$this->Lan->create();
-			if ($this->Lan->save($this->request->data)) {
-				$this->Session->setFlash(__('The lan has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The lan could not be saved. Please, try again.'));
-			}
-		}
-	}
-	
-	public function admin_add_seating_chart() {
 	    $this->set('js_include', 'admin_add_seating_chart.js');
 	    
 		if ($this->request->is('post')) {
@@ -68,8 +56,17 @@ class SeatingChartController extends AppController {
             }
             echo 'success';
 		}
+		if ($this->request->is('post')) {
+			$this->Lan->create();
+			if ($this->Lan->save($this->request->data)) {
+				$this->Session->setFlash(__('The lan has been saved'));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The lan could not be saved. Please, try again.'));
+			}
+		}
 	}
-
+	
 	public function admin_edit($id = null) {
 		if (!$this->Lan->exists($id)) {
 			throw new NotFoundException(__('Invalid lan'));

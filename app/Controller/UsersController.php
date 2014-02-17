@@ -92,13 +92,14 @@ class UsersController extends AppController {
 		$this->Auth->authenticate = array(
 			'Form' => array(
 				'fields' => array(
-					'username' => 'username',
+					'username' => 'email',
 					'password' => 'password'),
 				'userModel' => $this->_pluginDot() . $this->modelClass,
-				'scope' => array(
+				/*'scope' => array(
 					$this->modelClass . '.active' => 1,
-					//$this->modelClass . '.email_verified' => 1
-				)));
+					$this->modelClass . '.email_verified' => 1
+				)*/
+				));
 
 		$this->Auth->loginRedirect = '/';
 		$this->Auth->logoutRedirect = array('plugin' => $this->plugin, 'controller' => 'users', 'action' => 'login');

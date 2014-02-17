@@ -133,6 +133,8 @@ def deploy():
 
     #put new templates up every time
     put_templates()
+    
+    apt('libmcrypt-dev')
 
     #make sure we have ssl enabled
     sudo('a2enmod ssl') 

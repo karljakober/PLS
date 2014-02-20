@@ -60,8 +60,39 @@ div.emptyspace{
    height:40px;
 }
 
+.flap {
+  font-size:18px;
+  color:#FFF;
+  top:0;
+  margin-right:-37px;
+  background:#000;
+  width:40px;
+  position:absolute;
+  right:0;
+  -moz-border-radius:0 8px;
+  -webkit-border-top-left-radius:0;
+  -webkit-border-top-right-radius:8px;
+  -webkit-border-bottom-left-radius:0;
+  -webkit-border-bottom-right-radius:8px;
+  border-top-left-radius:0;
+  border-top-right-radius:8px;
+  border-bottom-left-radius:0;
+  border-bottom-right-radius:8px;
+  -moz-box-shadow:2px 0 5px #999;
+  -webkit-box-shadow:2px 0 5px #999;
+  box-shadow:2px 0 5px #999;
+  padding:10px 0 10px 10px;
+}
+
+
 </style>
 <nav class="cbp-spmenu cbp-spmenu-left" id="cbp-spmenu-s1">
+    <div class="flap" style="top: 100px;" id="showLeftPush">
+    	<span class="flapLabel" style="white-space: nowrap; position: relative; width: 27px;">
+    		<object data="data:image/svg+xml; charset=utf-8 ,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;rect x=&quot;0&quot; y=&quot;0&quot; width=&quot;27px&quot; height=&quot;249px&quot; stroke=&quot;none&quot;&gt;&lt;/rect&gt;&lt;text  x=&quot;-0&quot; y=&quot;0&quot; font-family=&quot;Arial,Helvetica,sans-serif&quot;  fill=&quot;rgb(255, 255, 255)&quot; font-size=&quot;18&quot;  style=&quot;text-anchor: end; dominant-baseline: hanging&quot; transform=&quot;rotate(-90)&quot; text-rendering=&quot;optimizeSpeed&quot;&gt;Chat&lt;/text&gt;&lt;/svg&gt;" type="image/svg+xml" style="height:249px; width:27px;" class="flip_label"></object>
+    	</span>
+    	<div style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; background: none repeat scroll 0% 0% transparent;"></div>
+    </div>
     <div class="nano">
         <div class="nano-content">
             <ul class="list-group" id="messages">

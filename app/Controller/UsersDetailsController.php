@@ -1,8 +1,6 @@
 <?php
 
-App::uses('UsersAppController', 'Controller');
-
-class UserDetailsController extends UsersAppController {
+class UserDetailsController extends AppController {
 
 	public $name = 'UserDetails';
 

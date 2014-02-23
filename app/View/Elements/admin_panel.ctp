@@ -1,42 +1,23 @@
-		<!-- tournaments -->
-		<div class="actions">
-			<h3><?php echo __('Actions'); ?></h3>
-			<ul>
-				<li><?php echo $this->Html->link(__('New Tournament'), array('action' => 'add')); ?></li>
-				<li><?php echo $this->Html->link(__('List Lans'), array('controller' => 'lans', 'action' => 'index')); ?> </li>
-				<li><?php echo $this->Html->link(__('New Lan'), array('controller' => 'lans', 'action' => 'add')); ?> </li>
-			</ul>
-		</div>
-
-		<!-- lans -->
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $lan['Lan']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $lan['Lan']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $lan['Lan']['id']), null, __('Are you sure you want to delete # %s?', $lan['Lan']['id'])); ?>
-		</td>
-
-		<div class="actions">
-			<h3><?php echo __('Actions'); ?></h3>
-			<ul>
-				<li><?php echo $this->Html->link(__('Edit Lan'), array('action' => 'edit', $lan['Lan']['id'])); ?> </li>
-				<li><?php echo $this->Form->postLink(__('Delete Lan'), array('action' => 'delete', $lan['Lan']['id']), null, __('Are you sure you want to delete # %s?', $lan['Lan']['id'])); ?> </li>
-				<li><?php echo $this->Html->link(__('List Lans'), array('action' => 'index')); ?> </li>
-				<li><?php echo $this->Html->link(__('New Lan'), array('action' => 'add')); ?> </li>
-				<li><?php echo $this->Html->link(__('List Servers'), array('controller' => 'servers', 'action' => 'index')); ?> </li>
-				<li><?php echo $this->Html->link(__('New Server'), array('controller' => 'servers', 'action' => 'add')); ?> </li>
-				<li><?php echo $this->Html->link(__('List Tournaments'), array('controller' => 'tournaments', 'action' => 'index')); ?> </li>
-				<li><?php echo $this->Html->link(__('New Tournament'), array('controller' => 'tournaments', 'action' => 'add')); ?> </li>
-			</ul>
-		</div>
-
-		<div class="actions">
-			<h3><?php echo __('Actions'); ?></h3>
-			<ul>
-				<li><?php echo $this->Html->link(__('Edit Tournament'), array('action' => 'edit', $tournament['Tournament']['id'])); ?> </li>
-				<li><?php echo $this->Form->postLink(__('Delete Tournament'), array('action' => 'delete', $tournament['Tournament']['id']), null, __('Are you sure you want to delete # %s?', $tournament['Tournament']['id'])); ?> </li>
-				<li><?php echo $this->Html->link(__('List Tournaments'), array('action' => 'index')); ?> </li>
-				<li><?php echo $this->Html->link(__('New Tournament'), array('action' => 'add')); ?> </li>
-				<li><?php echo $this->Html->link(__('List Lans'), array('controller' => 'lans', 'action' => 'index')); ?> </li>
-				<li><?php echo $this->Html->link(__('New Lan'), array('controller' => 'lans', 'action' => 'add')); ?> </li>
-			</ul>
-		</div>
+<nav class="cbp-spmenu cbp-spmenu-right" id="cbp-spmenu-s2">
+    <div class="flapRight" style="top: 100px;" id="showRightPush">
+    	<span class="flapLabel" style="white-space: nowrap; position: relative; width: 27px;">
+    		<object data="data:image/svg+xml; charset=utf-8 ,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;&lt;rect x=&quot;0&quot; y=&quot;0&quot; width=&quot;27px&quot; height=&quot;249px&quot; stroke=&quot;none&quot;&gt;&lt;/rect&gt;&lt;text  x=&quot;-0&quot; y=&quot;0&quot; font-family=&quot;Arial,Helvetica,sans-serif&quot;  fill=&quot;rgb(255, 255, 255)&quot; font-size=&quot;18&quot;  style=&quot;text-anchor: end; dominant-baseline: hanging&quot; transform=&quot;rotate(-90)&quot; text-rendering=&quot;optimizeSpeed&quot;&gt;Admin Panel&lt;/text&gt;&lt;/svg&gt;" type="image/svg+xml" style="height:249px; width:27px;" class="flip_label"></object>
+    	</span>
+    	<div style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; background: none repeat scroll 0% 0% transparent;"></div>
+    </div>
+    <div class="nano">
+        <div class="nano-content">
+          <?php
+            foreach ($adminNavigation as $index => $action) { ?>
+              <div class="list-group">
+                <a class="list-group-item active" href="#">
+                  <?php echo $index; ?>
+                </a>
+                <?php foreach ($action as $name => $url) { ?>
+                <a class="list-group-item" href="<?php echo $url; ?>"><?php echo $name; ?></a>
+                <?php } ?>
+              </div>
+          <?php } ?>
+        </div>
+    </div>
+</nav>

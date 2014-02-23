@@ -1,5 +1,4 @@
 <?php
-App::uses('UsersAppController', 'Controller');
 App::import('Vendor', 'openid', array('file' => 'openid.php'));
 App::uses('Option', 'Model');
 

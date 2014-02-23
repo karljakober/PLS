@@ -2,15 +2,6 @@ var socket = io.connect( 'http://' + location.hostname + ':8080' );
 
 var body = document.body;
 
-$( "body" ).toggleClass( "cbp-spmenu-push" );
-$(".nano").nanoScroller({ scroll: 'bottom' });
-
-$( "#showLeftPush" ).click( function() {
-    //classie.toggle( this, 'active' );
-    $( "body" ).toggleClass( 'cbp-spmenu-push-toright' );
-    $( "#cbp-spmenu-s1" ).toggleClass( 'cbp-spmenu-open' );
-});
-
 $.ajax({
     url: "/messages/register",
     type: "POST",

@@ -198,9 +198,9 @@ def create_required_folders():
         with cd("%s" % env.project_directory):
             sudo("mkdir log")
 
-    if not exists("%s/log/pls-error.log" % env.project_directory):
+    if not exists("%s/log/error.log" % env.project_directory):
         with cd("%s/log" % env.project_directory):
-            sudo("touch pls-error.log")
+            sudo("touch error.log")
 
 
     #ensure temp directory is writable

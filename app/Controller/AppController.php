@@ -11,7 +11,8 @@ class AppController extends Controller {
                 //'Actions' => array('actionPath' => 'controllers')
             )
         ),
-        'Session'
+        'Session',
+        'ControllerList'
     );
 
     public $uses = array('Lan', 'User', 'Message');
@@ -45,6 +46,26 @@ class AppController extends Controller {
             $this->set('user', $user);
             if ($this->Auth->User('role') == 'admin') {
                 $this->set('isAdmin', true);
+                $adminNavigation = array();
+                $controllers = $this->ControllerList->getList();
+                foreach ($controllers as $controller) {
+                  $controllerActions = array();
+                  //we dont want to include anything that doesnt have admin methods
+                  if ($controller['actions']) {
+                    foreach ($controller['actions'] as $index => $action) {
+                      if ($action == 'admin_index') {
+                        $controllerActions['View All'] = '/admin/' . $controller['name'] . '/index';
+                      }
+                      if ($action == 'admin_add') {
+                        $controllerActions['Add New'] = '/admin/' . $controller['name'] . '/add';
+                      }
+                    }
+                    if (count($controllerActions)) {
+                      $adminNavigation[$controller['displayName']] = $controllerActions;
+                    }
+                  }
+                }
+                $this->set('adminNavigation', $adminNavigation);
             } else {
                 $this->set('isAdmin', false);
             }

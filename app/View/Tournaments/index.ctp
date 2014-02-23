@@ -2,13 +2,11 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="page-header">
-          <h1 id="Users"><?php echo __('Tournaments'); ?></h1>
+          <h1 id="Tournaments"><?php echo __('Tournaments'); ?></h1>
         </div>
-    	<p><?php
-    	echo $this->Paginator->counter(array(
-    	'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-    	));
-    	?></p>
+    	<p>
+    		<?php echo $this->element('paging'); ?>
+      </p>
         <div>
           <table class="table table-striped table-bordered table-hover">
             <thead>

@@ -11,6 +11,7 @@
         <div class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav">
               <?php 
+              if (isset($navigationleft)) {
                 foreach ($navigationleft as $element => $url) {
                     if (!is_array($url)) { ?>
                         <li><a href="<?php echo $url; ?>"><?php echo $element; ?></a></li>
@@ -25,10 +26,12 @@
                         </a>
                     </li>
                     <?php } 
-                } ?>
+                }
+              } ?>
               </ul>
           <ul class="nav navbar-nav navbar-right">
-              <?php 
+            <?php 
+              if (isset($navigationright)) {
                 foreach ($navigationright as $element => $url) {
                     if (!is_array($url)) { ?>
                         <li><a href="<?php echo $url; ?>"><?php echo $element; ?></a></li>
@@ -43,7 +46,8 @@
                         </a>
                     </li>
                     <?php } 
-                } ?>
+                }
+              }?>
           </ul>
           <!--<li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Themes <span class="caret"></span></a>

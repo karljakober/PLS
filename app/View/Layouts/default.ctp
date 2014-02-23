@@ -16,6 +16,11 @@
     }
     ?>
     
+    <?php
+    if ($isAdmin) {
+        echo $this->element('admin_panel');
+    } ?>
+    
 	<?php echo $this->fetch('content'); ?>
 
     <?php //echo $this->element('footer-semantic'); ?>

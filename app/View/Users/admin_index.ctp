@@ -11,7 +11,6 @@
       		echo $this->Form->input('email', array('label' => __d('users', 'Email')));
       	echo $this->Form->end(__d('users', 'Search'));
       	?>
-    	<p><?php echo $this->element('paging'); ?></p>
         <div>
           <table class="table table-striped table-bordered table-hover">
             <thead>
@@ -50,7 +49,7 @@
           					<?php echo $user[$model]['created']; ?>
           				</td>
           				<td class="actions">
-          					<?php echo $this->Html->link(__d('users', 'View'), array('action'=>'view', $user[$model]['id'])); ?>
+          					<?php echo $this->Html->link(__d('users', 'View'), array('action'=>'view', 'admin' => false, $user[$model]['id'])); ?>
           					<?php echo $this->Html->link(__d('users', 'Edit'), array('action'=>'edit', $user[$model]['id'])); ?>
           					<?php echo $this->Html->link(__d('users', 'Delete'), array('action'=>'delete', $user[$model]['id']), null, sprintf(__d('users', 'Are you sure you want to delete # %s?'), $user[$model]['id'])); ?>
           				</td>
@@ -59,6 +58,7 @@
             </tbody>
           </table>
         </div>
+    	<p><?php echo $this->element('paging'); ?></p>
     	<?php echo $this->element('pagination'); ?>
       </div>
     </div>

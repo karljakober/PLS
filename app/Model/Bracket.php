@@ -52,8 +52,4 @@ class Bracket extends AppModel {
 		)
 	);
 
-	public function getAutocomplete($id) {
-		$tournament = $this->findByTournamentId($id);
-		return $tournament['Bracket']['json'];
-	}
 }

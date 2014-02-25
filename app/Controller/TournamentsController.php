@@ -7,6 +7,7 @@ class TournamentsController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
+		$this->set('model', $this->modelClass);
 	}
 
 	public function index() {
@@ -20,9 +21,6 @@ class TournamentsController extends AppController {
 		}
 		$options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id));
 		$this->set('tournament', $this->Tournament->find('first', $options));
-
-		$this->set('autoCompleteData', $this->Bracket->getAutocomplete($id));
-
 	}
 
 	public function admin_add() {
@@ -70,6 +68,11 @@ class TournamentsController extends AppController {
 		}
 		$this->Session->setFlash(__('Tournament was not deleted'));
 		$this->redirect(array('action' => 'index'));
+	}
+	
+	public function admin_index() {
+		$this->{$this->modelClass}->recursive = 0;
+		$this->set('tournaments', $this->paginate());
 	}
 
 }

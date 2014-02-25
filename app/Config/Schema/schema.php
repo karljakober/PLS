@@ -10,6 +10,7 @@ class AppSchema extends CakeSchema {
 
 	public $brackets = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'tournament_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
@@ -22,6 +23,7 @@ class AppSchema extends CakeSchema {
 		'seating_chart_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'start_time' => array('type' => 'datetime', 'null' => false, 'default' => null),
 		'end_time' => array('type' => 'datetime', 'null' => false, 'default' => null),
+		'max_attendants' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),

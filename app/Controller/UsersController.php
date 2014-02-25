@@ -302,6 +302,10 @@ class UsersController extends AppController {
  * @return void
  */
 	public function login() {
+	  $user = $this->User->findById($this->Auth->User('id'));
+	  if ($user) {
+	    $this->redirect('/dashboard');
+	  }
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {
 				$this->getEventManager()->dispatch(new CakeEvent('afterLogin', $this, array(
@@ -339,6 +343,10 @@ class UsersController extends AppController {
 		}
 		$allowRegistration = Configure::read('allowRegistration');
 		$this->set('allowRegistration', (is_null($allowRegistration) ? true : $allowRegistration));
+	}
+	
+	public function admin_login() {
+	  $this->redirect('/login');
 	}
 	
 	public function steam_login() {

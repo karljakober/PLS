@@ -17,7 +17,7 @@
     ?>
     
     <?php
-    if ($isAdmin) {
+    if (isset($isAdmin) && $isAdmin) {
         echo $this->element('admin_panel');
     } ?>
     

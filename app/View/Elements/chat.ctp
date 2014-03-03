@@ -28,14 +28,14 @@
                 }?>
             </ul>
             <div class="emptyspace"></div>
-            <div class="chatfooter">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="messageInput" />
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button" id="messageSubmit">Send</button>
-                    </span>
-                </div>
-            </div>
+        </div>
+    </div>
+    <div class="chatfooter">
+        <div class="input-group">
+            <input type="text" class="form-control" id="messageInput" />
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" id="messageSubmit">Send</button>
+            </span>
         </div>
     </div>
 </nav>

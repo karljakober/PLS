@@ -7,7 +7,20 @@
     </div>
     <div class="nano">
         <div class="nano-content">
-          <?php
+          <ul style="max-width: 300px;" class="nav nav-pills nav-stacked">
+            <?php
+            foreach ($adminNavigation as $index => $action) { ?>
+            <li class="dropdown">
+              <a class="dropdown-toggle" href="#" data-toggle="dropdown"><?php echo $index; ?><span class="caret"></span></a>
+              <ul class="dropdown-menu">
+              <?php foreach ($action as $name => $url) { ?>
+                <li><a href="<?php echo $url; ?>"><?php echo $name; ?></a></li>
+              <?php } ?>
+              </ul>
+            </li>
+            <?php } ?>
+          </ul>
+          <?php /*
             foreach ($adminNavigation as $index => $action) { ?>
               <div class="list-group">
                 <a class="list-group-item active" href="#">
@@ -17,7 +30,7 @@
                 <a class="list-group-item" href="<?php echo $url; ?>"><?php echo $name; ?></a>
                 <?php } ?>
               </div>
-          <?php } ?>
+          <?php } */ ?>
         </div>
     </div>
 </nav>

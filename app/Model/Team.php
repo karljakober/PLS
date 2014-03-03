@@ -35,12 +35,13 @@ class Team extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'User' => array(
+		'Manager' => array(
 			'className' => 'User',
-			'foreignKey' => 'manager',
+			'foreignKey' => 'manager_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)	);
+		)
+	);
 
 }

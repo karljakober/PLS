@@ -35,6 +35,8 @@ class TeamsController extends AppController {
 				$this->Session->setFlash(__('The team could not be saved. Please, try again.'));
 			}
 		}
+		$managers = $this->Team->Manager->find('list');
+		$this->set(compact('managers'));
 	}
 
 	public function edit($id = null) {

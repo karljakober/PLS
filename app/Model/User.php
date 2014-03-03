@@ -60,6 +60,19 @@ class User extends AppModel {
 		'Server' => array(
 			'className' => 'Server',
 			'foreignKey' => 'user_id',
+		),
+		'Team' => array(
+			'className' => 'Team',
+			'foreignKey' => 'manager_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
 		)
 	);
 

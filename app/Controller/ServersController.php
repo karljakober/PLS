@@ -12,23 +12,15 @@ class ServersController extends AppController {
 		$this->set('servers', $this->paginate());
 	}
 
-	public function view($id = null) {
-		if (!$this->Server->exists($id)) {
-			throw new NotFoundException(__('Invalid server'));
-		}
-		$options = array('conditions' => array('Server.' . $this->Server->primaryKey => $id));
-		$this->set('server', $this->Server->find('first', $options));
-	}
-
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Server->create();
 			$this->Server->set('user_id', $this->Auth->user('id'));
 			if ($this->Server->save($this->request->data)) {
-				$this->Session->setFlash(__('The server has been saved'));
+				$this->Session->setFlash(__('The server has been saved'), 'flash_success');
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The server could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('The server could not be saved. Please, try again.'), 'flash_failure');
 			}
 		}
 		$lans = $this->Server->Lan->find('list');
@@ -42,10 +34,10 @@ class ServersController extends AppController {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			$this->Server->read(null, $id);
 			if ($this->Server->save($this->request->data)) {
-				$this->Session->setFlash(__('The server has been saved'));
+				$this->Session->setFlash(__('The server has been saved'), 'flash_success');
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The server could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('The server could not be saved. Please, try again.'), 'flash_failure');
 			}
 		} else {
 			$options = array('conditions' => array('Server.' . $this->Server->primaryKey => $id));
@@ -62,30 +54,30 @@ class ServersController extends AppController {
 		}
 		$this->request->onlyAllow('post', 'delete');
 		if ($this->Server->delete()) {
-			$this->Session->setFlash(__('Server deleted'));
+			$this->Session->setFlash(__('Server deleted'), 'flash_success');
 			$this->redirect(array('action' => 'index'));
 		}
-		$this->Session->setFlash(__('Server was not deleted'));
+		$this->Session->setFlash(__('Server was not deleted'), 'flash_failure');
 		$this->redirect(array('action' => 'index'));
 	}
 
 
 	public function isAuthorized() {
-	    // All registered users can add posts
-	    if ($this->action === 'add') {
-	        return true;
-	    }
+    // All registered users can add posts
+    if ($this->action === 'add') {
+      return true;
+    }
 
-	    // The owner of a post can edit and delete it, so can an admin
-	    if (in_array($this->action, array('edit', 'delete'))) {
-	        $serverId = $this->request->params['pass'][0];
-	        if ($this->Server->isOwnedBy($serverId, $this->user['User']['id']) || $this->Auth->User('role') == 'admin') {
-	            return true;
-	        } else {
-	        	return false;
-	        }
-	    }
+    // The owner of a post can edit and delete it, so can an admin
+    if (in_array($this->action, array('edit', 'delete'))) {
+      $serverId = $this->request->params['pass'][0];
+      if ($this->Server->isOwnedBy($serverId, $this->user['User']['id']) || $this->Auth->User('role') == 'admin') {
+        return true;
+      } else {
+      	return false;
+      }
+    }
 
-	    return parent::isAuthorized();
+    return parent::isAuthorized();
 	}
 }

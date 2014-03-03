@@ -1,6 +1,8 @@
 <div class="container">
+  <div class="page-content">
     <div class="row">
       <div class="col-lg-12">
+        <?php echo $this->Session->flash(); ?>
         <div class="page-header">
           <h1 id="OfficialServers"><?php echo __('Official Servers for ') . $this->Html->link($activeLan['Lan']['name'], array('controller' => 'lans', 'action' => 'view', $activeLan['Lan']['id'])); ?></h1>
         </div>
@@ -8,10 +10,10 @@
           <table class="table table-striped table-bordered table-hover">
             <thead>
               <tr>
-    			<th><?php echo $this->Paginator->sort('name'); ?></th>
-    			<th><?php echo $this->Paginator->sort('address'); ?></th>
-    			<th><?php echo $this->Paginator->sort('additional_info'); ?></th>
-    			<th></th>
+          			<th><?php echo $this->Paginator->sort('name'); ?></th>
+          			<th><?php echo $this->Paginator->sort('address'); ?></th>
+          			<th><?php echo $this->Paginator->sort('additional_info'); ?></th>
+          			<th></th>
               </tr>
             </thead>
             <tbody>
@@ -46,10 +48,10 @@
           <table class="table table-striped table-bordered table-hover">
             <thead>
               <tr>
-    			<th><?php echo $this->Paginator->sort('name'); ?></th>
-    			<th><?php echo $this->Paginator->sort('address'); ?></th>
-    			<th><?php echo $this->Paginator->sort('additional_info'); ?></th>
-    			<th></th>
+          			<th><?php echo $this->Paginator->sort('name'); ?></th>
+          			<th><?php echo $this->Paginator->sort('address'); ?></th>
+          			<th><?php echo $this->Paginator->sort('additional_info'); ?></th>
+          			<th></th>
               </tr>
             </thead>
             <tbody>
@@ -81,4 +83,5 @@
         </div>
       </div>
     </div>
+  </div>
 </div>

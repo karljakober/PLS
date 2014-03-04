@@ -57,10 +57,6 @@ class User extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'UserDetail' => array(
-			'className' => 'UserDetail',
-			'foreignKey' => 'user_id'
-		),
 		'Server' => array(
 			'className' => 'Server',
 			'foreignKey' => 'user_id',
@@ -167,41 +163,6 @@ class User extends AppModel {
 	}
 
 /**
- * Sets some defaults for the UserDetail model
- *
- * @return void
- */
-	public function setupDetail() {
-		$this->UserDetail->sectionSchema[$this->alias] = array(
-			'birthday' => array(
-				'type' => 'date',
-				'null' => null,
-				'default' => null,
-				'length' => null),
-			'first_name' => array(
-				'type' => 'string',
-				'null' => null,
-				'default' => null,
-				'length' => null),
-			'last_name' => array(
-				'type' => 'string',
-				'null' => null,
-				'default' => null,
-				'length' => null));
-
-		$this->UserDetail->sectionValidation[$this->alias] = array(
-			'birthday' => array(
-				'validDate' => array(
-					'rule' => array('date'), 'allowEmpty' => true, 'message' => __d('users', 'Invalid date'))),
-			'first_name' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'), 'allowEmpty' => true, 'message' => __d('users', 'Invalid date'))),
-			'last_name' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'), 'allowEmpty' => true, 'message' => __d('users', 'Invalid date'))));
-	}
-
-/**
  * After save callback
  *
  * @param boolean $created
@@ -225,22 +186,6 @@ class User extends AppModel {
 				$this->saveField('url', '/user/' . $this->data[$this->alias]['slug'], false);
 			}
 		}
-	}
-
-/**
- * afterFind callback
- *
- * @param array $results Result data
- * @param mixed $primary Primary query
- * @return array
- */
-	public function afterFind($results, $primary = false) {
-		foreach ($results as &$row) {
-			if (isset($row['UserDetail']) && (is_array($row))) {
-				$row['UserDetail'] = $this->UserDetail->getSection($row[$this->alias]['id'], $this->alias);
-			}
-		}
-		return $results;
 	}
 
 /**
@@ -533,8 +478,6 @@ class User extends AppModel {
  */
 	public function view($slug = null) {
 		$user = $this->find('first', array(
-			'contain' => array(
-				'UserDetail'),
 			'conditions' => array(
 				'OR' => array(
 					$this->alias . '.slug' => $slug,
@@ -834,8 +777,6 @@ class User extends AppModel {
  */
 	public function edit($userId = null, $postData = null) {
 		$user = $this->find('first', array(
-			'contain' => array(
-				'UserDetail'),
 			'conditions' => array($this->alias . '.id' => $userId)));
 
 		$this->set($user);

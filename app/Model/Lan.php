@@ -69,51 +69,45 @@ class Lan extends AppModel {
     );
     
 	public function active($upcoming = false) {
-	    //if upcoming is true, it will return current lan or future lan
-	    //if upcoming is false, it will return current lan or previous lan
+    //if upcoming is true, it will return current lan or future lan
+    //if upcoming is false, it will return current lan or previous lan
 		if ($upcoming) {
-            $curLan = $this->find('first', array(
-                'conditions' => array(
-                    'and' => array(
-                        'Lan.end_time > ' => date('Y-m-d H:i:s'),
-                        'Lan.start_time < ' => date('Y-m-d H:i:s')
-                    )
-                )
-              )
-            );
-            if (!isset($curlan) || !$curlan) {
-                $curLan = $this->find('first', array(
-                    'conditions' => array(
-                        'Lan.start_time > ' => date('Y-m-d H:i:s')
-                    )
-                  )
-                );
-            }
-            if (!isset($curlan) || !$curlan) {
-                return false;
-            }
-        } else {
-            $curLan = $this->find('first', array(
-                'conditions' => array(
-                    'and' => array(
-                        'Lan.end_time > ' => date('Y-m-d H:i:s'),
-                        'Lan.start_time < ' => date('Y-m-d H:i:s')
-                    )
-                )
-              )
-            );
-            if(!isset($curlan) || !$curLan) {
-                $curLan = $this->find('first', array(
-                    'conditions' => array(
-                        'Lan.end_time < ' => date('Y-m-d H:i:s')
-                    )
-                  )
-                );
-            }
-        }
-        
-
-        return $curLan;
+      $curLan = $this->find('first', array(
+        'conditions' => array(
+          'and' => array(
+            'Lan.end_time > ' => date('Y-m-d H:i:s'),
+            'Lan.start_time < ' => date('Y-m-d H:i:s')
+          )
+        )
+      ));
+      if (!isset($curLan) || !$curLan) {
+        $curLan = $this->find('first', array(
+          'conditions' => array(
+            'Lan.start_time > ' => date('Y-m-d H:i:s')
+          )
+        ));
+      }
+      if (!isset($curLan) || !$curLan) {
+        return false;
+      }
+    } else {
+      $curLan = $this->find('first', array(
+        'conditions' => array(
+          'and' => array(
+            'Lan.end_time > ' => date('Y-m-d H:i:s'),
+            'Lan.start_time < ' => date('Y-m-d H:i:s')
+          )
+        )
+      ));
+      if(!isset($curlan) || !$curLan) {
+        $curLan = $this->find('first', array(
+          'conditions' => array(
+            'Lan.end_time < ' => date('Y-m-d H:i:s')
+          )
+        ));
+      }
+    }
+    return $curLan;
 
 	}
 

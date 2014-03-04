@@ -5,7 +5,7 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
     public $theme = false;
 
-	public $components = array(
+    public $components = array(
         'Auth' => array(
             'authorize' => array(
                 //'Actions' => array('actionPath' => 'controllers')

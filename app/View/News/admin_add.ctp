@@ -15,13 +15,13 @@ var postForm = function() {
         <?php echo $this->Session->flash(); ?>
         <div class="news form">
         <?php echo $this->Form->create('News', array('onSubmit' => 'return postForm();')); ?>
-        	<fieldset>
-        		<legend><?php echo __('Add News Article'); ?></legend>
-        	<?php
-        		echo $this->Form->input('title');
-        	?>
+          <fieldset>
+            <legend><?php echo __('Add News Article'); ?></legend>
+          <?php
+            echo $this->Form->input('title');
+          ?>
           <textarea class="input-block-level" id="editor" name="data[News][content]" rows="18"></textarea>
-        	</fieldset>
+          </fieldset>
         <?php echo $this->Form->end(__('Submit')); ?>
         </div>
       </div>

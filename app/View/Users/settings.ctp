@@ -10,9 +10,9 @@
             echo $this->Form->create('User', array(
               'class' => 'bs-example form-horizontal',
               'id' => 'SettingsForm'
-		        ));
-		        ?>
-		        <fieldset>
+            ));
+            ?>
+            <fieldset>
               <legend><?php echo __d('users', 'Account Settings'); ?></legend>
               <?php if ($user['User']['username'] == "") { ?>
               <div class="form-group">
@@ -68,11 +68,11 @@
               <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
                   <?php
-    			        echo $this->Form->submit(__d('users', 'Submit'), array(
-    			            'class' => 'btn btn-primary',
-    			            'div' => false
-    			        ));
-	                ?>
+                  echo $this->Form->submit(__d('users', 'Submit'), array(
+                      'class' => 'btn btn-primary',
+                      'div' => false
+                  ));
+                  ?>
                 </div>
               </div>
             </fieldset>
@@ -85,10 +85,10 @@
             <?php 
             echo $this->Form->create($model, array(
               'class' => 'bs-example form-horizontal',
-        			'action' => 'login',
-        			'id' => 'LoginForm'
-        		));
-      		  ?>
+              'action' => 'login',
+              'id' => 'LoginForm'
+            ));
+            ?>
             <fieldset>
               <legend><?php echo __d('users', 'Other Settings'); ?></legend>
             </fieldset>

@@ -1,61 +1,20 @@
 <?php
-/**
- * Copyright 2010 - 2013, Cake Development Corporation (http://cakedc.com)
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright Copyright 2010 - 2013, Cake Development Corporation (http://cakedc.com)
- * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
- */
 
 App::uses('Security', 'Utility');
 App::uses('openid', 'Vendor');
 
-/**
- * Users Plugin User Model
- *
- * @package Userf
- * @subpackage User.Model
- */
 class User extends AppModel {
 
-/**
- * Name
- *
- * @var string
- */
 	public $name = 'User';
 
-/**
- * Additional Find methods
- *
- * @var array
- */
 	public $findMethods = array('search' => true);
 
-/**
- * All search fields need to be configured in the Model::filterArgs array.
- *
- * @var array
- * @link https://github.com/CakeDC/search
- */
 	public $filterArgs = array(
 		array('name' => 'username', 'type' => 'string'),
 		array('name' => 'email', 'type' => 'string'));
 
-/**
- * Displayfield
- *
- * @var string $displayField
- */
 	public $displayField = 'username';
 
-/**
- * hasMany associations
- *
- * @var array
- */
 	public $hasMany = array(
 		'Server' => array(
 			'className' => 'Server',
@@ -63,18 +22,8 @@ class User extends AppModel {
 		)
 	);
 
-/**
- * Validation domain for translations 
- *
- * @var string
- */
 	public $validationDomain = 'users';
 
-/**
- * Validation parameters
- *
- * @var array
- */
 	public $validate = array(
 		'username' => array(
 			'required' => array(
@@ -112,13 +61,7 @@ class User extends AppModel {
 			'rule' => array('custom','[1]'),
 			'message' => 'You must agree to the terms of use.'));
 
-/**
- * Constructor
- *
- * @param string $id ID
- * @param string $table Table
- * @param string $ds Datasource
- */
+
 	public function __construct($id = false, $table = null, $ds = null) {
 		$this->_setupBehaviors();
 		$this->_setupValidation();

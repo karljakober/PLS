@@ -15,7 +15,7 @@ class AppController extends Controller {
         'ControllerList'
     );
 
-    public $uses = array('Lan', 'User', 'Message');
+    public $uses = array('Lan', 'User', 'Message', 'News');
 
     public $helpers = array('Html', 'Form', 'Session');
 
@@ -130,7 +130,7 @@ class AppController extends Controller {
         }
         $this->set('navigationleft', $navigationleft);
         $this->set('navigationright', $navigationright);
-
+        $this->set('news', $this->News->find('all', array('order' => array('News.created'), 'limit' => 4)));
         $this->set('streamList', $this->User->getStreamerList());
     }
 

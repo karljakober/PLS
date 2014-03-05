@@ -2,7 +2,7 @@
   <div class="page-content">
     <div class="row">
       <div class="col-lg-12">
-        <?php echo $this->Session->flash();
+        <?php echo $this->Session->flash(); ?>
         <div class="lans index">
           <h2><?php echo __('Lans'); ?></h2>
           <table class="table table-striped table-bordered table-hover">

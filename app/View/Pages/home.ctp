@@ -3,8 +3,9 @@ if (isset($user) && $user) {
     header('Location: /dashboard');
     exit;
 } ?>
-<!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron">
+<?php echo $this->element('timeline_js', array('upcominglan', $upcominglan)); ?>
+
+<div class="jumbotron"<?php if (isset($upcominglan) && count($upcominglan)) { ?> style="margin-bottom: 0px;" <?php } ?>>
   <div class="container">
     <div class="row">
       <div class="col-lg-6">
@@ -29,6 +30,9 @@ if (isset($user) && $user) {
     </div>
   </div>
 </div>
+<?php if (isset($upcominglan) && count($upcominglan)) { ?>
+  <div id="timeline" style="margin-bottom: 30px;"></div>
+<?php } ?>
 <div class="container">
   <?php 
   if (!count($news)) {

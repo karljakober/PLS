@@ -8,10 +8,7 @@ class News extends AppModel {
 	public $belongsTo = array(		
 	  'Author' => array(
 			'className' => 'User',
-			'foreignKey' => 'author_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
+			'foreignKey' => 'author_id'
 		));
 
 	public $displayField = 'title';

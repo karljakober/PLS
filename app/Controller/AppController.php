@@ -33,6 +33,9 @@ class AppController extends Controller {
         if ($this->Lan->active()) {
             $timeline_json = '/events/timeline_json';
         } else {
+            $this->set('upcominglan', $this->Lan->find('first', array(
+              'conditions' => array('Lan.start_time > NOW()')
+            )));
             $timeline_json = '/lans/timeline_json';
         }
         $this->set('timeline_path', $timeline_json);

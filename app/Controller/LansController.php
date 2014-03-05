@@ -6,6 +6,7 @@ class LansController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         $this->set('model', $this->modelClass);
+        $this->Auth->allow('timeline_json');
     }
 
     public function index() {
@@ -65,11 +66,6 @@ class LansController extends AppController {
         $this->redirect(array('action' => 'index'));
     }
 
-    public function timeline_json() {
-        $data = $this->Lan->getTimelineJson();
-        return new CakeResponse(array('body' => json_encode($data)));
-    }
-    
     public function admin_index() {
         $this->{$this->modelClass}->recursive = 0;
         $this->set('lans', $this->paginate());

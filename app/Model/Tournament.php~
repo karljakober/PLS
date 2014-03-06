@@ -14,7 +14,7 @@ class Tournament extends AppModel {
  */
 
 	public $types = array(
-		'single_elimination', 'double_elimination', 'boiloff', 'round_robin');
+		'single_elimination', 'double_elimination', 'boiloff');
 	
 	public $validate = array(
 		'lan_id' => array(

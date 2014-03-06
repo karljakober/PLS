@@ -5,7 +5,7 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
     public $theme = false;
 
-	public $components = array(
+    public $components = array(
         'Auth' => array(
             'authorize' => array(
                 //'Actions' => array('actionPath' => 'controllers')
@@ -15,7 +15,7 @@ class AppController extends Controller {
         'ControllerList'
     );
 
-    public $uses = array('Lan', 'User', 'Message');
+    public $uses = array('Lan', 'User', 'Message', 'News');
 
     public $helpers = array('Html', 'Form', 'Session');
 
@@ -33,6 +33,9 @@ class AppController extends Controller {
         if ($this->Lan->active()) {
             $timeline_json = '/events/timeline_json';
         } else {
+            $this->set('upcominglan', $this->Lan->find('first', array(
+              'conditions' => array('Lan.start_time > NOW()')
+            )));
             $timeline_json = '/lans/timeline_json';
         }
         $this->set('timeline_path', $timeline_json);
@@ -130,7 +133,7 @@ class AppController extends Controller {
         }
         $this->set('navigationleft', $navigationleft);
         $this->set('navigationright', $navigationright);
-
+        $this->set('news', $this->News->find('all', array('order' => array('News.created'), 'limit' => 4)));
         $this->set('streamList', $this->User->getStreamerList());
     }
 

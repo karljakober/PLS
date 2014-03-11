@@ -8,12 +8,22 @@ class AppSchema extends CakeSchema {
 	public function after($event = array()) {
 	}
 
+	public $brackets = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'tournament_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'id', 'unique' => 1)
+		),
+		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB')
+	);
+
 	public $lans = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'seating_chart_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'start_time' => array('type' => 'datetime', 'null' => false, 'default' => null),
 		'end_time' => array('type' => 'datetime', 'null' => false, 'default' => null),
+		'max_attendants' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
@@ -37,6 +47,8 @@ class AppSchema extends CakeSchema {
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
 		'content' => array('type' => 'text', 'null' => false, 'default' => null, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'author_id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null),
+		'title' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),

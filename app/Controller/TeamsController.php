@@ -20,14 +20,12 @@ class TeamsController extends AppController {
 		}
 		$options = array('conditions' => array('Team.' . $this->Team->primaryKey => $id));
 		$this->set('team', $this->Team->find('first', $options));
-
-		$this->set('autoCompleteData', $this->Bracket->getAutocomplete($id));
-
 	}
 
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Team->create();
+			$this->Team->set('manager_id', $this->Auth->User('id'));
 			if ($this->Team->save($this->request->data)) {
 				$this->Session->setFlash(__('The team has been saved'));
 				$this->redirect(array('action' => 'index'));

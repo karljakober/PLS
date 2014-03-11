@@ -14,8 +14,8 @@
     			<th><?php echo $this->Paginator->sort('id'); ?></th>
     			<th><?php echo $this->Paginator->sort('name'); ?></th>
     			<th><?php echo $this->Paginator->sort('description'); ?></th>
-    			<th><?php echo $this->Paginator->sort('manager'); ?></th>
-    			<th><?php echo $this->Paginator->sort('invite_only'); ?></th>
+    			<th><?php echo $this->Paginator->sort('manager_id'); ?></th>
+    			<th><?php echo $this->Paginator->sort('invite_only');?></th>
               </tr>
             </thead>
             <tbody>
@@ -34,7 +34,9 @@
                 			<?php echo $this->Html->link($team['Team']['name'], array('controller' => 'Teams', 'action' => 'view', $team['Team']['id'])); ?>
                 		</td>
                 		<td><?php echo h($team['Team']['description']); ?>&nbsp;</td>
-                		<td><?php echo h($team['Team']['manager']); ?>&nbsp;</td>
+                		<td>
+                		    <?php echo $this->Html->link($team['Manager']['username'], array('controller' => 'Users', 'action' => 'view', $team['Team']['manager_id'])); ?>
+                		</td>
                 		<td><?php echo h($team['Team']['invite_only']); ?>&nbsp;</td>
             		</tr>
             	<?php endforeach; ?>

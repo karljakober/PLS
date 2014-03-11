@@ -9,7 +9,6 @@
         		echo $this->Form->input('id');
         		echo $this->Form->input('name');
         		echo $this->Form->input('description');
-        		echo $this->Form->input('manager_id');
         		echo $this->Form->input('invite_only');
         	?>
         	</fieldset>

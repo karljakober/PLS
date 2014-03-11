@@ -43,5 +43,15 @@ class Team extends AppModel {
 			'order' => ''
 		)
 	);
+	
+	
+	public $hasAndBelongsToMany = array(
+        'Member' => array(
+            'className' => 'Users',
+            'joinTable' => 'user_teams',
+            'foreignKey' => 'team_id',
+            'associationForeignKey' => 'user_id',
+        )
+    );
 
 }

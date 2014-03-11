@@ -25,5 +25,13 @@ class Tournament extends AppModel {
 			'foreignKey' => 'lan_id'
 		)
 	);
+	
+	public $team_tournaments = array(
+	    'team_tournaments' => array(
+	        'className' => 'team_tournaments',
+	        'foreignKey' => ''
+	    )  
+	    
+	);
 
 }

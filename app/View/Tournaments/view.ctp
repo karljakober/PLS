@@ -17,6 +17,33 @@
                     &nbsp;
                 </dd>
             </dl>
+            
+        <h2>Teams:</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    	$i = 0;
+                    	foreach ($team_tournaments as $team):
+                    	    if($team['Team']['tournament_id']  == $tournament['Tournament']['id'])){
+                        		$class = null;
+                        		if ($i++ % 2 == 0) {
+                        			$class = ' class="altrow"';
+                        		}
+                        		?>
+                        		<tr<?php echo $class; ?>>
+                            		<td><?php echo h($team['Team']['id']); ?>&nbsp;</td>
+                            		<td><?php echo h($team['Team']['team_id']); ?>&nbsp;</td>
+                        		</tr>
+                        	}
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
       </div>
     </div>

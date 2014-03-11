@@ -14,9 +14,9 @@ var postForm = function() {
       <div class="col-lg-12 well">
         <?php echo $this->Session->flash(); ?>
         <div class="news form">
-        <?php echo $this->Form->create('News', array('onSubmit' => 'return postForm();')); ?>
+        <?php echo $this->Form->create($model, array('onSubmit' => 'return postForm();')); ?>
           <fieldset>
-            <legend><?php echo __('Add News Article'); ?></legend>
+            <legend><?php echo __('Edit News Article'); ?></legend>
             <?php
               echo $this->Form->input('title', array(
                   'label' => __d('news', 'Title'),
@@ -29,7 +29,7 @@ var postForm = function() {
             ?>
           <div class="clearfix">&nbsp;</div>
           <div class="form-group">
-            <textarea class="input-block-level" id="editor" name="data[News][content]" rows="18"></textarea>
+            <textarea class="input-block-level" id="editor" name="data[News][content]" rows="18"><?php echo $this->request->data['News']['content']; ?></textarea>
           </div>
           <div class="form-group">
             <div class="col-lg-10 col-lg-offset-2">

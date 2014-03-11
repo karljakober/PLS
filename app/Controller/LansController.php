@@ -26,10 +26,10 @@ class LansController extends AppController {
         if ($this->request->is('post')) {
             $this->Lan->create();
             if ($this->Lan->save($this->request->data)) {
-                $this->Session->setFlash(__('The lan has been saved'));
+                $this->Session->setFlash(__('The lan has been saved'), 'flash_success');
                 $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The lan could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The lan could not be saved. Please, try again.'), 'flash_failure');
             }
         }
     }
@@ -40,10 +40,10 @@ class LansController extends AppController {
         }
         if ($this->request->is('post') || $this->request->is('put')) {
             if ($this->Lan->save($this->request->data)) {
-                $this->Session->setFlash(__('The lan has been saved'));
+                $this->Session->setFlash(__('The lan has been saved'), 'flash_success');
                 $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The lan could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The lan could not be saved. Please, try again.'), 'flash_failure');
             }
         } else {
             $options = array('conditions' => array('Lan.' . $this->Lan->primaryKey => $id));
@@ -52,22 +52,13 @@ class LansController extends AppController {
     }
 
     public function admin_delete($id = null) {
-        $this->Lan->id = $id;
-        if (!$this->Lan->exists()) {
-            throw new NotFoundException(__('Invalid lan'));
+        if ($this->{$this->modelClass}->delete($id)) {
+            $this->Session->setFlash(__('Lan deleted'), 'flash_success');
+        } else {
+            $this->Session->setFlash(__('Invalid Lan'), 'flash_failure');
         }
-        $this->request->onlyAllow('post', 'delete');
-        if ($this->Lan->delete()) {
-            $this->Session->setFlash(__('Lan deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('Lan was not deleted'));
-        $this->redirect(array('action' => 'index'));
-    }
 
-    public function timeline_json() {
-        $data = $this->Lan->getTimelineJson();
-        return new CakeResponse(array('body' => json_encode($data)));
+        $this->redirect(array('action' => 'index'));
     }
     
     public function admin_index() {

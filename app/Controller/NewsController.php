@@ -9,54 +9,52 @@ class NewsController extends AppController {
     }
 
     public function view($id = null) {
-        if (!$this->News->exists($id)) {
+        if (!$this->{$this->modelClass}->exists($id)) {
             throw new NotFoundException(__('Invalid News Article'));
         }
-        $options = array('conditions' => array('News.' . $this->News->primaryKey => $id));
-        $this->set('news', $this->News->find('first', $options));
+        $options = array('conditions' => array($this->modelClass . '.' . $this->{$this->modelClass}->primaryKey => $id));
+        $this->set('news', $this->{$this->modelClass}->find('first', $options));
     }
 
     public function admin_add() {
-    $this->set('js_include', 'summernote.js');
+        $this->set('js_include', 'summernote.js');
         if ($this->request->is('post')) {
-            $this->News->create();
-            if ($this->News->save($this->request->data)) {
-                $this->Session->setFlash(__('The News article has been saved'));
-                $this->redirect(array('controller' => 'User', 'action' => 'dashboard'));
+            $this->{$this->modelClass}->create();
+            $this->{$this->modelClass}->set('author_id', $this->Auth->User('id'));
+            if ($this->{$this->modelClass}->save($this->request->data)) {
+                $this->Session->setFlash(__('The News article has been saved'), 'flash_success');
+                $this->redirect(array('controller' => 'News', 'action' => 'index', 'admin' => true));
             } else {
-                $this->Session->setFlash(__('The News article could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The News article could not be saved. Please, try again.'), 'flash_failure');
             }
         }
     }
 
     public function admin_edit($id = null) {
-        if (!$this->News->exists($id)) {
+        $this->set('js_include', 'summernote.js');
+        if (!$this->{$this->modelClass}->exists($id)) {
             throw new NotFoundException(__('Invalid News Article'));
         }
         if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->News->save($this->request->data)) {
-                $this->Session->setFlash(__('The News article has been saved'));
-                $this->redirect(array('controller' => 'User', 'action' => 'dashboard'));
+            $this->{$this->modelClass}->id = $id;
+            if ($this->{$this->modelClass}->save($this->request->data)) {
+                $this->Session->setFlash(__('The News article has been saved'), 'flash_success');
+                $this->redirect(array('controller' => 'News', 'action' => 'index', 'admin' => true));
             } else {
-                $this->Session->setFlash(__('The News article could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The News article could not be saved. Please, try again.'), 'flash_failure');
             }
         } else {
-            $options = array('conditions' => array('News.' . $this->News->primaryKey => $id));
-            $this->request->data = $this->News->find('first', $options);
+            $options = array('conditions' => array($this->modelClass . '.' . $this->{$this->modelClass}->primaryKey => $id));
+            $this->request->data = $this->{$this->modelClass}->find('first', $options);
         }
     }
 
     public function admin_delete($id = null) {
-        $this->News->id = $id;
-        if (!$this->News->exists()) {
-            throw new NotFoundException(__('Invalid News article'));
+        if ($this->{$this->modelClass}->delete($id)) {
+            $this->Session->setFlash(__('News article deleted'), 'flash_success');
+        } else {
+            $this->Session->setFlash(__('News article was not deleted'), 'flash_failure');
         }
-        $this->request->onlyAllow('post', 'delete');
-        if ($this->News->delete()) {
-            $this->Session->setFlash(__('News article deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('News article was not deleted'));
         $this->redirect(array('action' => 'index'));
     }
 

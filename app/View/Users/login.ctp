@@ -24,12 +24,12 @@
           <fieldset>
             <legend><?php echo __d('users', 'Dont have steam? Login'); ?></legend>
               <div class="form-group">
-                <label for="UserEmail" class="col-lg-2 control-label"><?php echo __d('users', 'Email'); ?></label>
+                <label for="UserEmail" class="col-lg-2 control-label"><?php echo __d('users', 'Username'); ?></label>
                 <?php
-                echo $this->Form->input('email', array(
+                echo $this->Form->input('username', array(
                   'label' => false,
                   'div' => 'col-lg-10',
-                  'placeholder' => 'Email',
+                  'placeholder' => 'Username',
                   'class' => 'form-control'
                 ));
                 ?>

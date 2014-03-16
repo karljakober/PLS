@@ -40,6 +40,50 @@ class AppController extends Controller {
         }
         $this->set('timeline_path', $timeline_json);
         $this->set('activeLan', $this->Lan->active(true));
+        
+        //begin cakephp bridge code
+        if (Configure::read('phpBB-bridge')) {
+            define('IN_PHPBB', true);
+            global $phpbb_root_path, $phpEx, $db, $config, $user, $auth, $cache, $template;
+            $phpbb_root_path = Configure::read('phpBB-root_path');
+            $phpEx = substr(strrchr(__FILE__, '.'), 1);
+            include_once($phpbb_root_path . 'common.' . $phpEx);
+            
+            require_once($phpbb_root_path .'includes/functions_user.php');
+
+            // Start session management
+            $user->session_begin();
+            $auth->acl($user->data);
+            $user->setup();
+
+
+            if ($user->data['user_id'] != ANONYMOUS && !$this->Auth->User('id')) {
+                //user is logged into forum, see if we have an account for them here
+                $checkuser = $this->User->findByForumId($user->data['user_id']);
+                if (count($checkuser)) {
+                    //found one, log them in!
+                    $this->Auth->login($checkuser['User']);
+                } else {
+                    //if we dont, we need to dynamically create it and redirect user for their new password
+                    $this->User->create();
+                    $this->User->set(array(
+                        'username' => $user->data['username'],
+                        'email' => $user->data['user_email'],
+                        'tos' => 1,
+                        'role' => 'registered',
+                        'active' => 1,
+                        'email_verified' => 1
+                    ));
+                    $this->User->save();
+                    $logemin = $this->User->findByUsername($user->data['username']);
+                    $this->Auth->login($logemin);
+                    $this->redirect('/users/setpassword');
+                }
+            } else if($user->data['user_id'] == ANONYMOUS) {
+                $this->Auth->logout();
+            }
+
+        }
 
         if ($this->Auth->User('id')) {
             //setting for controllers

@@ -69,3 +69,81 @@ Additional Resources
 
 - Need to tinker with the database? `sudo apt-get install phpmyadmin` select apache2 with tab, then space to check, then tab to OK and press space. phpmyadmin will be installed at yourusername.kd.io/phpmyadmin, username root, no password by default
 
+
+
+
+forum integration instructions
+===
+
+phpbb:
+
+You will get Fatal error: Cannot redeclare class cache
+
+in the file:
+
+forum/includes/cache.php
+
+change: 
+```
+class cache extends acm
+```
+to: 
+```
+class phpbb_cache extends acm
+```
+
+in the following files:
+
+forum/common.php
+
+forum/style.php
+
+forum/download/file.php
+
+change:
+```
+new cache();
+```
+to:
+```
+new phpbb_cache();
+```
+
+You will get Fatal error: Cannot redeclare class user
+
+in the file:
+
+forum/includes/session.php
+
+change:
+```
+class user extends session
+```
+to:
+```
+class phpbb_user extends session
+```
+change:
+```
+function user()
+```
+to:
+```
+function phpbb_user()
+```
+
+in the file:
+
+forum/common.php
+
+change:
+```
+new user();
+```
+to:
+```
+new phpbb_user();
+```
+
+
+

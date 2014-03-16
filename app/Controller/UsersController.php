@@ -44,13 +44,6 @@ class UsersController extends AppController {
         }
     }
 
-    protected function _pluginDot() {
-        if (is_string($this->plugin)) {
-            return $this->plugin . '.';
-        }
-        return $this->plugin;
-    }
-
     protected function _setupComponents() {
         if (App::import('Component', 'Search.Prg')) {
             $this->components[] = 'Search.Prg';
@@ -91,9 +84,9 @@ class UsersController extends AppController {
         $this->Auth->authenticate = array(
             'Form' => array(
                 'fields' => array(
-                    'username' => 'email',
+                    'username' => 'username',
                     'password' => 'password'),
-                'userModel' => $this->_pluginDot() . $this->modelClass,
+                'userModel' => $this->modelClass,
                 /*'scope' => array(
                     $this->modelClass . '.active' => 1,
                     $this->modelClass . '.email_verified' => 1
@@ -101,8 +94,8 @@ class UsersController extends AppController {
                 ));
 
         $this->Auth->loginRedirect = '/';
-        $this->Auth->logoutRedirect = array('plugin' => $this->plugin, 'controller' => 'users', 'action' => 'login');
-        $this->Auth->loginAction = array('admin' => false, 'plugin' => $this->plugin, 'controller' => 'users', 'action' => 'login');
+        $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
+        $this->Auth->loginAction = array('admin' => false, 'controller' => 'users', 'action' => 'login');
     }
 
 /**
@@ -274,12 +267,17 @@ class UsersController extends AppController {
             $user = $this->{$this->modelClass}->add($this->request->data, array('emailVerification' => false));
             if ($user !== false) {
                 //$this->_sendVerificationEmail($this->{$this->modelClass}->data);
+
                 $this->Session->setFlash(__d('users', 'Your account has been created.'), 'flash_success');
                 $this->redirect(array('action' => 'login'));
             } else {
                 unset($this->request->data[$this->modelClass]['password']);
                 unset($this->request->data[$this->modelClass]['temppassword']);
-                $this->Session->setFlash(__d('users', 'Your account could not be created. Please, try again.'), 'flash_failure');
+                if (isset($this->User->error)) {
+                    $this->Session->setFlash($this->User->error, 'flash_failure');
+                } else {
+                    $this->Session->setFlash(__d('users', 'Your account could not be created. Please, try again.'), 'flash_failure');
+                }
             }
         }
     }
@@ -290,12 +288,17 @@ class UsersController extends AppController {
  * @return void
  */
     public function login() {
-      $user = $this->User->findById($this->Auth->User('id'));
-      if ($user) {
-        $this->redirect('/dashboard');
-      }
+        $user = $this->User->findById($this->Auth->User('id'));
+        if ($user) {
+           $this->redirect('/dashboard');
+        }
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
+                if (Configure::read('phpBB-bridge')) {
+                    global $phpbb_root_path, $phpEx, $db, $config, $user, $auth, $cache, $template;
+                    $auth->login($this->request->data[$this->modelClass]['username'], $this->request->data[$this->modelClass]['password'], true, 1, 0);
+                }
+
                 $this->getEventManager()->dispatch(new CakeEvent('afterLogin', $this, array(
                     'isFirstLogin' => !$this->Auth->user('last_login'))));
 
@@ -438,6 +441,9 @@ class UsersController extends AppController {
  * @return void
  */
     public function logout() {
+        if (Configure::read('phpBB-bridge')) {
+            $user->session_kill();
+        }
         $user = $this->Auth->user();
         $this->Session->destroy();
         $this->Cookie->destroy();
@@ -514,7 +520,7 @@ class UsersController extends AppController {
             ->replyTo(Configure::read('App.defaultEmail'))
             ->return(Configure::read('App.defaultEmail'))
             ->subject(env('HTTP_HOST') . ' ' . __d('users', 'Password Reset'))
-            ->template($this->_pluginDot() . 'new_password')
+            ->template('new_password')
             ->viewVars(array(
                 'model' => $this->modelClass,
                 'userData' => $userData))
@@ -591,7 +597,7 @@ class UsersController extends AppController {
         $defaults = array(
             'from' => Configure::read('App.defaultEmail'),
             'subject' => __d('users', 'Account verification'),
-            'template' => $this->_pluginDot() . 'account_verification',
+            'template' => 'account_verification',
             'layout' => 'default');
 
         $options = array_merge($defaults, $options);
@@ -619,7 +625,7 @@ class UsersController extends AppController {
         $defaults = array(
             'from' => Configure::read('App.defaultEmail'),
             'subject' => __d('users', 'Password Reset'),
-            'template' => $this->_pluginDot() . 'password_reset_request',
+            'template' => 'password_reset_request',
             'layout' => 'default');
 
         $options = array_merge($defaults, $options);

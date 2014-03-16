@@ -284,3 +284,15 @@ Cache::config('_cake_model_', array(
 	'duration' => $duration,
     'mask' => 0666
 ));
+
+
+
+
+
+//Configure forum bridges here
+Configure::write('phpBB-bridge', true);
+
+if (Configure::read('phpBB-bridge')) {
+	Configure::write('phpBB-prefix', 'phpbb_');
+	Configure::write('phpBB-root_path', '/home/karljakober/PLS/app/webroot/forum/');
+}

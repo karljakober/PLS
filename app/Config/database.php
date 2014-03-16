@@ -85,4 +85,15 @@ class DATABASE_CONFIG {
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);
+	
+	public $forum = array(
+		'datasource' => 'Database/Mysql',
+		'persistent' => false,
+		'host' => FORUM_HOST,
+		'login' => FORUM_LOGIN,
+		'password' => FORUM_PASSWORD,
+		'database' => FORUM_DATABASE,
+		'prefix' => '',
+		//'encoding' => 'utf8',
+	);
 }

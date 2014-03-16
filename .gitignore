@@ -5,6 +5,7 @@
 .DS_Store
 /tags
 /log
+/app/webroot/forum
 
 /app/Config/cakeconfig.php
 /.Trash-1000

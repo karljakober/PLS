@@ -3,19 +3,30 @@ App::uses('AppController', 'Controller');
 
 class SeatingChartController extends AppController {
     
-    public $uses = array('SeatingChart', 'SeatingChartTile');
+    public $uses = array('SeatingChart', 'SeatingChartTile', 'UserSeating');
 
     public function beforeFilter() {
         parent::beforeFilter();
         $this->set('model', $this->modelClass);
+        $this->Auth->allow('index');
     }
 
     public function index() {
-        $chartId = 2;
-        $seatingChart = $this->SeatingChart->findById($chartId);
-        $seatingChartTiles = $this->SeatingChartTile->findAllBySeatingChartId($chartId);
-        pr($seatingChartTiles);
-        pr($seatingChart);
+        $activeLan = $this->Lan->active(true);
+        $seatingChartTiles = $this->SeatingChartTile->findAllBySeatingChartId($activeLan['Lan']['seating_chart_id']);
+        $userSeating = $this->UserSeating->findAllByLanId($activeLan['Lan']['id']);
+
+        foreach ($seatingChartTiles as $index1 => $tile) {
+            foreach ($userSeating as $index2 => $seat) {
+                if ($seat['UserSeating']['seat_number'] == $tile['SeatingChartTile']['seat_number']) {
+                    $seatingChartTiles[$index1]['UserSeating'] = $seat['UserSeating'];
+                    $seatingChartTiles[$index1]['User'] = $seat['User'];
+                    unset($userSeating[$index2]);
+                }
+            }
+        }
+
+        $this->set('seatingChartTiles', $seatingChartTiles);
     }
 
     public function view($id = null) {

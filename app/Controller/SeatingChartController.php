@@ -8,6 +8,7 @@ class SeatingChartController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         $this->set('model', $this->modelClass);
+        $this->Auth->allow('index');
     }
 
     public function index() {

@@ -1,4 +1,7 @@
 <?php
+if (file_exists(ROOT . '/app/Config/cakeconfig.php')) {
+  include_once ROOT . '/app/Config/cakeconfig.php';
+} 
 /**
  * This is core configuration file.
  *
@@ -236,7 +239,7 @@
  * Uncomment this line and correct your server timezone to fix
  * any date & time related errors.
  */
-    //date_default_timezone_set('UTC');
+    date_default_timezone_set(DEFAULT_TIMEZONE);
 
 /**
  * Configure the cache handlers that CakePHP will use for internal

@@ -2,6 +2,7 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="page-header">
+        <?php echo $this->Session->flash(); ?>
           <h1 id="Teams"><?php echo __('Teams'); ?></h1>
         </div>
     	<p>
@@ -40,9 +41,11 @@
                 		<td><?php echo h($team['Team']['invite_only']); ?>&nbsp;</td>
             		</tr>
             	<?php endforeach; ?>
+            	
             </tbody>
           </table>
         </div>
+        <?php echo $this->Html->link(__('Add Team'), array('controller' => 'Teams', 'action' => 'add')); ?>
     	<?php echo $this->element('pagination'); ?>
       </div>
     </div>

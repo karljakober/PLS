@@ -16,6 +16,19 @@ class User extends AppModel {
 	public $displayField = 'username';
 
 	public $hasMany = array(
+		'UserSeating' => array(
+			'className' => 'UserSeating',
+			'foreignKey' => 'user_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
 		'Server' => array(
 			'className' => 'Server',
 			'foreignKey' => 'user_id',

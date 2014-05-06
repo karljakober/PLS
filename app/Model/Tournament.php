@@ -3,9 +3,8 @@ App::uses('AppModel', 'Model');
 
 class Tournament extends AppModel {
 
-	public $types = array(
-		'single_elimination', 'double_elimination', 'ffa', 'boiloff');
-	
+	public $types = array('single_elimination', 'double_elimination', 'boiloff', 'round_robin', 'ffa');
+
 	public $validate = array(
 		'lan_id' => array(
 			'numeric' => array(

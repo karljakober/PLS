@@ -677,6 +677,7 @@ class UsersController extends AppController {
             
             if (!$error) {
                 $this->User->read(null, $this->Auth->User('id'));
+                $this->User->set('twitch_id', $this->request->data['User']['twitch_id']);
                 if (isset($this->request->data['User']['username'])) {
                     $this->User->set('username', $this->request->data['User']['username']);
                 }
@@ -686,6 +687,7 @@ class UsersController extends AppController {
                 if (isset($this->request->data['User']['password1'])) {
                     $this->User->set('password', $this->User->hash($this->request->data['User']['password1'], 'sha1', true));
                 }
+                $this->Session->setFlash('Settings updated successfully!', 'flash_success');
                 $this->User->save();
                 $this->Auth->login($user);
             }

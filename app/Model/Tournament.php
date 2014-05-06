@@ -4,7 +4,7 @@ App::uses('AppModel', 'Model');
 class Tournament extends AppModel {
 
 	public $types = array(
-		'single_elimination', 'double_elimination', 'boiloff');
+		'single_elimination', 'double_elimination', 'ffa', 'boiloff');
 	
 	public $validate = array(
 		'lan_id' => array(

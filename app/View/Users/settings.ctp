@@ -83,16 +83,19 @@
         <div class="col-lg-6">
           <div class="well">
             <?php 
-            echo $this->Form->create($model, array(
+            echo $this->Form->create('User', array(
               'class' => 'bs-example form-horizontal',
-              'action' => 'login',
-              'id' => 'LoginForm'
+              'id' => 'SettingsForm'
             ));
             ?>
             <fieldset>
               <legend><?php echo __d('users', 'Other Settings'); ?></legend>
+                      <?php
+                      echo $this->Form->input('twitch_id', array( 'type' => 'text' ) );
+                      ?>
             </fieldset>
-            <?php echo $this->Form->end(); ?>
+            <?php
+            echo $this->Form->end(__('Submit')); ?>
           </div>
         </div>
       </div>

@@ -15,6 +15,9 @@
                 <th><?php echo $this->Paginator->sort('name'); ?></th>
                 <th><?php echo $this->Paginator->sort('start_time'); ?></th>
                 <th><?php echo $this->Paginator->sort('end_time'); ?></th>
+                <th><?php echo $this->Paginator->sort('type'); ?></th>
+                <th><?php echo $this->Paginator->sort('allow_teams');?></th>
+                <th><?php echo $this->Paginator->sort('assigned_admin');?></th>
               </tr>
             </thead>
             <tbody>
@@ -34,6 +37,9 @@
                   <td><?php echo $this->Html->link(h($tournament['Tournament']['name']), array('action' => 'view', $tournament['Tournament']['id'])); ?>&nbsp;</td>
                   <td><?php echo h($tournament['Tournament']['start_time']); ?>&nbsp;</td>
                   <td><?php echo h($tournament['Tournament']['end_time']); ?>&nbsp;</td>
+                  <td><?php echo h($tournament['Tournament']['type']); ?>&nbsp</td>
+                  <td><?php echo h($tournament['Tournament']['allow_teams']); ?>&nbsp</td>
+                  <td><?php echo h($tournament['Tournament']['assigned_admin']); ?>&nbsp</td>
                 </tr>
               <?php endforeach; ?>
             </tbody>

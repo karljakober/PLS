@@ -20,7 +20,9 @@
             	</dl>
             	<?php 
             	echo $this->Html->link(__('Join Team'), array('controller' => 'Teams', 'action' => 'join', $team['Team']['id'])) . '<br />';
-            	echo $this->Html->link(__('Edit Team'), array('controller' => 'Teams', 'action' => 'edit', $team['Team']['id'])); 
+            	echo $this->Html->link(__('Edit Team'), array('controller' => 'Teams', 'action' => 'edit', $team['Team']['id'])) . '<br />';
+            	echo $this->Html->link(__('Team Join Requests'), array('controller' => 'Teams', 'action' => 'teamRequests', $team['Team']['id'])) . '<br />';
+            	echo $this->Html->link(__('Delete Team'), array('controller' => 'Teams', 'action' => 'delete', $team['Team']['id']));
             	?>
             </div>
           </div>

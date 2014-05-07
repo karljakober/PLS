@@ -20,7 +20,7 @@ class User extends AppModel {
 			'className' => 'Server',
 			'foreignKey' => 'user_id',
 		),
-		'Team' => array(
+		'ownsTeam' => array(
 			'className' => 'Team',
 			'foreignKey' => 'manager_id',
 			'dependent' => false,
@@ -32,7 +32,23 @@ class User extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		)
+		),
+	);
+	
+	public $hasAndBelongsToMany = array(
+	    'team' => array(
+	        'className' => 'team',
+	        'joinTable' => 'user_teams',
+	        'foreignKey' => 'user_id',
+	        'associationForeignKey' => 'team_id',
+	    ),
+	    
+	    'squad' => array(
+                'className' => 'squad',
+                'joinTable' => 'squad_users',
+                'foreignKey' => 'user_id',
+                'associationForeignKey' => 'squad_id',
+		) 
 	);
 
 	public $validationDomain = 'users';
@@ -73,7 +89,6 @@ class User extends AppModel {
 		'tos' => array(
 			'rule' => array('custom','[1]'),
 			'message' => 'You must agree to the terms of use.'));
-
 
 	public function __construct($id = false, $table = null, $ds = null) {
 		$this->_setupBehaviors();

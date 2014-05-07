@@ -3,24 +3,76 @@ App::uses('AppController', 'Controller');
 
 class TournamentsController extends AppController {
 
-    public $uses = array('Tournament', 'Bracket');
+    public $uses = array('Tournament', 'Bracket', 'Squad', 'User', 'SquadUsers', 'Team');
 
     public function beforeFilter() {
         parent::beforeFilter();
         $this->set('model', $this->modelClass);
+        
     }
 
     public function index() {
         $this->Tournament->recursive = 1;
         $this->set('tournaments', $this->paginate());
-    }
+    } 
 
     public function view($id = null) {
+        $this->Tournament->recursive = 1;
         if (!$this->Tournament->exists($id)) {
             throw new NotFoundException(__('Invalid tournament'));
         }
         $options = array('conditions' => array('Tournament.' . $this->Tournament->primaryKey => $id));
         $this->set('tournament', $this->Tournament->find('first', $options));
+        $this->set('squads', $this->Squad->find('all',array('conditions' => array('tournament_id' => $id))));
+        $this->set('user', $this->User->findById($this->Auth->User('id')));
+        //pr($this->Tournament->find('first', $options));
+        //pr($this->Squad->find('all'));
+        //pr($this->User->find('all',''));
+        //pr($this->SquadUsers->find('all'));
+        //pr($this->User->findById($this->Auth->User('id')));
+    }
+    
+    public function leave($tid = null) {
+        $this->SquadUsers->deleteAll(array(
+            'squad_id' => $this->request->data['Tournament']['squad'],
+            'user_id' => $this->request->data['Tournament']['user']
+        ),false);
+        
+        $this->redirect(array('action' => 'view', $tid));
+    }
+    
+    public function join($tid = null) {
+        $data = array(
+            'SquadUsers' => array(
+                'squad_id' => $this->request->data['Tournament']['squad'],
+                'user_id' => $this->request->data['Tournament']['user']
+            )
+        );
+        $this->SquadUsers->create();
+        $this->SquadUsers->save($data);
+        
+        $this->redirect(array('action' => 'view', $tid));
+    }
+    
+    public function disband($tid = null) {
+        $this->SquadUsers->deleteAll(array(
+            'squad_id' => $this->request->data['Tournament']['squad']
+        ),false);
+        $this->Squad->delete($this->request->data['Tournament']['squad']);
+        
+        $this->redirect(array('action' => 'view', $tid));
+    }
+    
+    public function create() {
+        $data = array(
+            'Squad' => array(
+                'team_id' => $this->request->data['Tournament']['team'],
+                'tournament_id' => $this->request->data['Tournament']['tournament']
+            )
+        );
+        $this->Squad->create();
+        $this->Squad->save($data);
+        $this->redirect(array('action' => 'view', $this->request->data['Tournament']['tournament']));
     }
 
     public function admin_add() {

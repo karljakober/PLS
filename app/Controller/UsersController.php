@@ -20,7 +20,6 @@ class UsersController extends AppController {
         'Cookie',
         'Paginator',
         'Security',
-        'Search.Prg',
         'RememberMe');
 
     public $presetVars = array(
@@ -250,14 +249,6 @@ class UsersController extends AppController {
         $this->redirect(array('action' => 'index'));
     }
 
-/**
- * Search for a user
- *
- * @return void
- */
-    public function admin_search() {
-        $this->search();
-    }
 
 /**
  * User register action
@@ -387,50 +378,6 @@ class UsersController extends AppController {
             echo $e->getMessage();
         }
     }
-    
-/**
- * Search - Requires the CakeDC Search plugin to work
- *
- * @throws MissingPluginException
- * @return void
- * @link https://github.com/CakeDC/search
- */
-    public function search() {
-        if (!App::import('Component', 'Search.Prg')) {
-            throw new MissingPluginException(array('plugin' => 'Search'));
-        }
-
-        $searchTerm = '';
-        $this->Prg->commonProcess($this->modelClass, $this->modelClass, 'search', false);
-
-        $by = null;
-        if (!empty($this->request->params['named']['search'])) {
-            $searchTerm = $this->request->params['named']['search'];
-            $by = 'any';
-        }
-        if (!empty($this->request->params['named']['username'])) {
-            $searchTerm = $this->request->params['named']['username'];
-            $by = 'username';
-        }
-        if (!empty($this->request->params['named']['email'])) {
-            $searchTerm = $this->request->params['named']['email'];
-            $by = 'email';
-        }
-        $this->request->data[$this->modelClass]['search'] = $searchTerm;
-
-        $this->paginate = array(
-            'search',
-            'limit' => 12,
-            'by' => $by,
-            'search' => $searchTerm,
-            'conditions' => array(
-                    'AND' => array(
-                        $this->modelClass . '.active' => 1,
-                        $this->modelClass . '.email_verified' => 1)));
-
-        $this->set('users', $this->paginate($this->modelClass));
-        $this->set('searchTerm', $searchTerm);
-    }
 
 /**
  * Common logout action
@@ -559,22 +506,6 @@ class UsersController extends AppController {
         }
     }
 
-/**
- * Sets a list of languages to the view which can be used in selects
- *
- * @deprecated No fallback provided, use the Utils plugin in your app directly
- * @param string $viewVar View variable name, default is languages
- * @throws MissingPluginException
- * @return void
- * @link https://github.com/CakeDC/utils
- */
-    protected function _setLanguages($viewVar = 'languages') {
-        if (!App::import('Lib', 'Utils.Languages')) {
-            throw new MissingPluginException(array('plugin' => 'Utils'));
-        }
-        $Languages = new Languages();
-        $this->set($viewVar, $Languages->lists('locale'));
-    }
 
 /**
  * Sends the verification email
@@ -746,6 +677,7 @@ class UsersController extends AppController {
             
             if (!$error) {
                 $this->User->read(null, $this->Auth->User('id'));
+                $this->User->set('twitch_id', $this->request->data['User']['twitch_id']);
                 if (isset($this->request->data['User']['username'])) {
                     $this->User->set('username', $this->request->data['User']['username']);
                 }
@@ -755,6 +687,7 @@ class UsersController extends AppController {
                 if (isset($this->request->data['User']['password1'])) {
                     $this->User->set('password', $this->User->hash($this->request->data['User']['password1'], 'sha1', true));
                 }
+                $this->Session->setFlash('Settings updated successfully!', 'flash_success');
                 $this->User->save();
                 $this->Auth->login($user);
             }

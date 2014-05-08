@@ -25,4 +25,20 @@ class Tournament extends AppModel {
 		)
 	);
 
+	public $hasAndBelongsToMany = array(
+	    'registered_teams' => array(
+	        'className' => 'team',
+	        'joinTable' => 'team_tournaments',
+	        'foreignKey' => 'tournament_id',
+	        'associationForeignKey' => 'team_id',
+	    ),
+	);
+	
+	public $hasMany = array(
+	    'squads' => array(
+	        'className' => 'squads',
+	        'joinTable' => 'squads',
+	        'associationForeignKey' => 'tournament_id'
+	    )
+	);
 }

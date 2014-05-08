@@ -1,6 +1,7 @@
 <div class="container">
   <div class="page-content">
     <div class="row">
+      <?php if (Configure::read('steam_login')) { ?>
       <div class="col-lg-6">
         <div class="well">
         <fieldset>
@@ -11,7 +12,8 @@
         </fieldset>
         </div>
       </div>
-      <div class="col-lg-6">
+      <?php } ?>
+      <div class="col-lg-6 <?php if (!Configure::read('steam_login')) { echo 'col-lg-offset-3'; } ?>">
         <?php echo $this->Session->flash(); ?>
         <div class="well">
           <?php 
@@ -22,7 +24,7 @@
           ));
           ?>
           <fieldset>
-            <legend><?php echo __d('users', 'Dont have steam? Login'); ?></legend>
+            <legend><?php if (Configure::read('steam_login')) { echo 'Dont have steam? '; } ?>Login</legend>
               <div class="form-group">
                 <label for="UserEmail" class="col-lg-2 control-label"><?php echo __d('users', 'Email'); ?></label>
                 <?php

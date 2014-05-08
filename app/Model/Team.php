@@ -66,5 +66,12 @@ class Team extends AppModel {
             'foreignKey' => 'team_id'
         )
     );
+    
+    public $hasMany = array(
+        'Requests' => array(
+            'className' => 'TeamRequests',
+            'foreignKey' => 'team_id'
+        )
+    );
 
 }

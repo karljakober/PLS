@@ -12,6 +12,12 @@
                 echo $this->Form->input('name');
                 echo $this->Form->input('start_time');
                 echo $this->Form->input('end_time');
+                echo $this->Form->input('allow_teams');
+                echo $this->Form->input('assigned_admin');
+                echo $this->Form->input('type', array(
+                    'options' => array(
+		                'single_elimination', 'double_elimination', 'ffa', 'boiloff'),
+                ));
             ?>
             </fieldset>
         <?php echo $this->Form->end(__('Submit')); ?>

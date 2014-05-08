@@ -2,6 +2,7 @@
     <div class="page-content">
         <div class="row">
           <div class="col-lg-12">
+            <?php echo $this->Session->flash(); ?>
             <div class="teams view">
             <h2><?php  echo h($team['Team']['name']); ?></h2>
             	<dl>
@@ -17,6 +18,12 @@
             		} ?>
             		</dd>
             	</dl>
+            	<?php 
+            	echo $this->Html->link(__('Join Team'), array('controller' => 'Teams', 'action' => 'join', $team['Team']['id'])) . '<br />';
+            	echo $this->Html->link(__('Edit Team'), array('controller' => 'Teams', 'action' => 'edit', $team['Team']['id'])) . '<br />';
+            	echo $this->Html->link(__('Team Join Requests'), array('controller' => 'Teams', 'action' => 'teamRequests', $team['Team']['id'])) . '<br />';
+            	echo $this->Html->link(__('Delete Team'), array('controller' => 'Teams', 'action' => 'delete', $team['Team']['id']));
+            	?>
             </div>
           </div>
         </div>

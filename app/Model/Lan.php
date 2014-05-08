@@ -3,37 +3,54 @@ App::uses('AppModel', 'Model');
 
 class Lan extends AppModel {
 
-	public $validate = array(
-		'name' => array(
-			'notempty' => array(
-				'rule' => array('notempty')
-			),
-		),
-	);
+  public $validate = array(
+    'name' => array(
+      'notempty' => array(
+        'rule' => array('notempty')
+      ),
+    ),
+  );
 
-	public $hasMany = array(
-		'Server' => array(
-			'className' => 'Server',
-			'foreignKey' => 'lan_id',
-			'dependent' => false
-		),
-		'Tournament' => array(
-			'className' => 'Tournament',
-			'foreignKey' => 'lan_id',
-			'dependent' => false
-		)
-	);
-	
-    public $hasOne = array(
-        'SeatingChart' => array(
-            'foreignKey' => 'id'
-        )
-    );
+  public $belongsTo = array(
+    'SeatingChart' => array(
+      'className' => 'SeatingChart',
+      'foreignKey' => 'seating_chart_id',
+      'conditions' => '',
+      'fields' => '',
+      'order' => ''
+    )
+  );
+
+  public $hasMany = array(
+    'UserSeating' => array(
+      'className' => 'UserSeating',
+      'foreignKey' => 'lan_id',
+      'dependent' => false,
+      'conditions' => '',
+      'fields' => '',
+      'order' => '',
+      'limit' => '',
+      'offset' => '',
+      'exclusive' => '',
+      'finderQuery' => '',
+      'counterQuery' => ''
+    ),
+    'Server' => array(
+      'className' => 'Server',
+      'foreignKey' => 'lan_id',
+      'dependent' => false
+    ),
+    'Tournament' => array(
+      'className' => 'Tournament',
+      'foreignKey' => 'lan_id',
+      'dependent' => false
+    )
+  );
     
-	public function active($upcoming = false) {
+  public function active($upcoming = false) {
     //if upcoming is true, it will return current lan or future lan
     //if upcoming is false, it will return current lan or previous lan
-		if ($upcoming) {
+    if ($upcoming) {
       $curLan = $this->find('first', array(
         'conditions' => array(
           'and' => array(
@@ -71,7 +88,7 @@ class Lan extends AppModel {
     }
     return $curLan;
 
-	}
+  }
 
   public function lanActive($id) {
       $lan = $this->findById($id);

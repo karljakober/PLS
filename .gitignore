@@ -1,14 +1,28 @@
-/app/tmp
-/lib/Cake/Console/Templates/skel/tmp/
-/build
-/dist
-.DS_Store
-/tags
 /log
-
 /app/Config/cakeconfig.php
 /.Trash-1000
 *.pyc
 /node_modules
-
 /app/webroot/forum/
+
+# User specific & automatically generated files #
+#################################################
+/app/Config/database.php
+/app/tmp
+/lib/Cake/Console/Templates/skel/tmp/
+/plugins
+/vendors
+/build
+/dist
+/tags
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db

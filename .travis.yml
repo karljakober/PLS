@@ -18,11 +18,16 @@ matrix:
         - PHPCS=1
 
 before_script:
-  - sudo locale-gen de_DE
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi"
+  - git clone git://github.com/KarlJakober/PLS ../PLS && cd ../PLS
   - sudo mkdir ./app/tmp
-  - chmod -R 777 ./app/tmp
+  - sudo mkdir ./app/tmp/cache
+  - sudo mkdir ./app/tmp/cache/models
+  - sudo mkdir ./app/tmp/cache/persistent
+  - sudo mkdir ./app/tmp/logs
+  - sudo mkdir ./app/tmp/tests
+  - sudo chmod -R 777 ./app/tmp
   - sudo apt-get install lighttpd
   - sh -c "if [ '$PHPCS' = '1' ]; then pear channel-discover pear.cakephp.org; fi"
   - sh -c "if [ '$PHPCS' = '1' ]; then pear install --alldeps cakephp/CakePHP_CodeSniffer; fi"

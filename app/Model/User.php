@@ -2,6 +2,8 @@
 
 App::uses('Security', 'Utility');
 App::uses('openid', 'Vendor');
+App::uses('ConnectionManager', 'Model'); 
+App::uses('CakeSession','Model/Datasource');
 
 class User extends AppModel {
 
@@ -18,34 +20,16 @@ class User extends AppModel {
     public $hasMany = array(
         'UserSeating' => array(
             'className' => 'UserSeating',
-            'foreignKey' => 'user_id',
-            'dependent' => false,
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'exclusive' => '',
-            'finderQuery' => '',
-            'counterQuery' => ''
+            'foreignKey' => 'user_id'
         ),
         'Server' => array(
             'className' => 'Server',
-            'foreignKey' => 'user_id',
+            'foreignKey' => 'user_id'
         ),
-        'Team' => array(
+        /*'Team' => array(
             'className' => 'Team',
-            'foreignKey' => 'manager_id',
-            'dependent' => false,
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'exclusive' => '',
-            'finderQuery' => '',
-            'counterQuery' => ''
-        )
+            'foreignKey' => 'manager_id'
+        )*/
     );
 
     public $validationDomain = 'users';
@@ -608,34 +592,67 @@ class User extends AppModel {
  * @param array post data, should be Controller->data
  * @return boolean True if the data was saved successfully.
  */
-    public function add($postData = null) {
-        if (!empty($postData)) {
-            $this->data = $postData;
-            if ($this->validates()) {
-                if (empty($postData[$this->alias]['role'])) {
-                    if (empty($postData[$this->alias]['is_admin'])) {
-                        $defaultRole = Configure::read('defaultRole');
-                        if ($defaultRole) {
-                            $postData[$this->alias]['role'] = $defaultRole;
-                        } else {
-                            $postData[$this->alias]['role'] = 'registered';
-                        }
-                    } else {
-                        $postData[$this->alias]['role'] = 'admin';
+	public function add($postData = null) {
+		if (!empty($postData)) {
+			$this->data = $postData;
+			if ($this->validates()) {
+				if (empty($postData[$this->alias]['role'])) {
+					if (empty($postData[$this->alias]['is_admin'])) {
+						$defaultRole = Configure::read('defaultRole');
+						if ($defaultRole) {
+							$postData[$this->alias]['role'] = $defaultRole;
+						} else {
+							$postData[$this->alias]['role'] = 'registered';
+						}
+					} else {
+						$postData[$this->alias]['role'] = 'admin';
+					}
+				}
+				
+                //begin phpbb code
+                if (Configure::read('phpBB-bridge')) {
+                    $forumdb = ConnectionManager::getDataSource('forum');
+                    $usernameresult = $forumdb->fetchAll('SELECT * FROM `' . Configure::read('phpBB-prefix') . 'users` where LOWER(`username`) = "' . strtolower($postData[$this->alias]['username']) . '"');
+                    if (count($usernameresult)) {
+                        $this->error = __('This username is already in use. Maybe try <a href="/login">Logging in?</a>');
+                        return false;
                     }
+                    $emailresult = $forumdb->fetchAll('SELECT * FROM `' . Configure::read('phpBB-prefix') . 'users` where LOWER(`user_email`) = "' . strtolower($postData[$this->alias]['email']) . '"');
+                    if (count($emailresult)) {
+                        $this->error = __('This email address is already in use. Maybe try <a href="/login">Logging in?</a>');
+                        return false;
+                    }
+                    // Do a check if username is allready there, same for email, otherwhise a nasty error will occur
+                    
+                    $user_row = array(
+                        'username' => $postData[$this->alias]['username'],
+                        'user_password' => md5($postData[$this->alias]['password']),
+                        'user_email' => $postData[$this->alias]['email'],
+                        'group_id' => 2, #Registered users group
+                        'user_dst' => 0,
+                        'user_lang' => 'en',
+                        'user_type' => '0',
+                        'user_actkey' => '',
+                        'user_dateformat' => 'd M Y H:i',
+                        'user_regdate' => time(),
+                    );
+                    
+                    $phpbb_user_id = user_add($user_row);
+                    $postData[$this->alias]['forum_id'] = $phpbb_user_id;
                 }
-                $postData[$this->alias]['password'] = $this->hash($postData[$this->alias]['password'], 'sha1', true);
-                $this->create();
-                $result = $this->save($postData, false);
-                if ($result) {
-                    $result[$this->alias][$this->primaryKey] = $this->id;
-                    $this->data = $result;
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+
+				$postData[$this->alias]['password'] = $this->hash($postData[$this->alias]['password'], 'sha1', true);
+				$this->create();
+				$result = $this->save($postData, false);
+				if ($result) {
+					$result[$this->alias][$this->primaryKey] = $this->id;
+					$this->data = $result;
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 /**
  * Edits an existing user

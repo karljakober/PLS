@@ -10,3 +10,5 @@
 /.Trash-1000
 *.pyc
 /node_modules
+
+/app/webroot/forum/

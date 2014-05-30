@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/KarlJakober/PLS.svg?branch=master)](https://travis-ci.org/KarlJakober/PLS)
+[![Coverage Status](https://img.shields.io/coveralls/KarlJakober/PLS.svg)](https://coveralls.io/r/KarlJakober/PLS)
+
 PLS
 ===
 ### Pong Lan Software

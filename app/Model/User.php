@@ -26,10 +26,10 @@ class User extends AppModel {
             'className' => 'Server',
             'foreignKey' => 'user_id'
         ),
-        /*'Team' => array(
+        'Team' => array(
             'className' => 'Team',
             'foreignKey' => 'manager_id'
-        )*/
+        )
     );
 
     public $validationDomain = 'users';

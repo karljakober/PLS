@@ -4,7 +4,6 @@ App::uses('AppModel', 'Model');
 class Team extends AppModel {
 
 	public $validate = array(
-
 		'name' => array(
 			'notempty' => array(
 				'rule' => array('notempty')
@@ -42,11 +41,5 @@ class Team extends AppModel {
         )
     );
     
-    public $hasMany = array(
-        'Requests' => array(
-            'className' => 'TeamRequests',
-            'foreignKey' => 'team_id'
-        )
-    );
 
 }

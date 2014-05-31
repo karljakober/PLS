@@ -40,7 +40,7 @@ class ServerFixture extends CakeTestFixture {
 			'official' => '0',
 		),
 		array(
-			'id' => 12
+			'id' => 2,
 			'lan_id' => 1,
 			'name' => 'Lorem ipsum dolor sit amet',
 			'address' => 'Lorem ipsum dolor sit a',

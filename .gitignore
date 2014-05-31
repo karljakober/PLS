@@ -4,6 +4,15 @@
 *.pyc
 /node_modules
 /app/webroot/forum/
+# composer
+vendor/
+composer.lock
+# travis
+travis/
+# bin
+composer.phar
+php-cs-fixer.phar
+.coveralls.yml
 
 # User specific & automatically generated files #
 #################################################
@@ -26,3 +35,6 @@
 Icon?
 ehthumbs.db
 Thumbs.db
+
+
+

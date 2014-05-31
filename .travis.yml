@@ -23,10 +23,14 @@ matrix:
     - php: 5.4
       env:
         - COVERALLS=1
+        
+before_install:
+  - composer selfupdate
 
 before_script:
+  - composer selfupdate
   - sh -c "if [ '$TRAVIS_PHP_VERSION' != '5.2' ]; then composer global require 'phpunit/phpunit=3.7.33'; fi"
-  - sh -c "if [ '$COVERALLS' = '1' ]; then composer global require --dev satooshi/php-coveralls:dev-master'; fi"
+  - sh -c "if [ '$COVERALLS' = '1' ]; then composer global require --dev 'satooshi/php-coveralls:dev-master'; fi"
   - sudo mkdir ./vendors
   - sudo chmod -R 777 ./vendors
   - sh -c "if [ '$TRAVIS_PHP_VERSION' != '5.2' ]; then ln -s ~/.composer/vendor/phpunit/phpunit/PHPUnit ./vendors/PHPUnit; fi"

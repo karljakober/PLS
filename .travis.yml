@@ -133,15 +133,12 @@ before_script:
     }
     define('DEFAULT_TIMEZONE', 'UTC');" > app/Config/database.php
     
-    
-    - echo "# for php-coveralls
-        src_dir: app
-        coverage_clover: build/logs/clover.xml
-        json_path: build/logs/coveralls-upload.json" > .coveralls.yml
+  - echo "src_dir: app
+    coverage_clover: build/logs/clover.xml
+    json_path: build/logs/coveralls-upload.json" > .coveralls.yml
 
 script:
   - mkdir -p build/logs
-  - php vendor/bin/phpunit -c phpunit.xml.dist
   - sh -c "if [ '$PHPCS' = '1' ]; then phpcs -p --extensions=php --standard=CakePHP ./app; elif [ '$COVERALLS' = '1' ]; then ./lib/Cake/Console/cake test app AllTests --stderr --coverage-clover build/logs/clover.xml; else ./lib/Cake/Console/cake test app AllTests --stderr; fi"
 
 after_script:

@@ -33,7 +33,6 @@ class LanFixture extends CakeTestFixture {
                 'id' => 1,
                 'name' => 'Lorem ipsum dolor sit amet',
                 'seating_chart_id' => '1',
-                'published' => '1',
                 'start_time' => date('Y-m-d H:i:s'),
                 'end_time' => date('Y-m-d H:i:s'),
             ),

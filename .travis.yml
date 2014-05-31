@@ -124,7 +124,8 @@ before_script:
         \$this->{\$source} = \$config;
       }
     }
-    }" > app/Config/database.php
+    }
+    define('DEFAULT_TIMEZONE', 'UTC');" > app/Config/database.php
 
 script:
   - sh -c "if [ '$PHPCS' = '1' ]; then phpcs -p --extensions=php --standard=CakePHP ./lib/Cake; else ./lib/Cake/Console/cake test app AllTests --stderr; fi"

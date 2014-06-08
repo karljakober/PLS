@@ -8,7 +8,7 @@ class TournamentsController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         $this->set('model', $this->modelClass);
-        
+
     }
 
     public function index() {
@@ -31,16 +31,16 @@ class TournamentsController extends AppController {
         //pr($this->SquadUsers->find('all'));
         //pr($this->User->findById($this->Auth->User('id')));
     }
-    
+
     public function leave($tid = null) {
         $this->SquadUsers->deleteAll(array(
             'squad_id' => $this->request->data['Tournament']['squad'],
             'user_id' => $this->request->data['Tournament']['user']
-        ),false);
-        
+        ), false);
+
         $this->redirect(array('action' => 'view', $tid));
     }
-    
+
     public function join($tid = null) {
         $data = array(
             'SquadUsers' => array(
@@ -50,19 +50,19 @@ class TournamentsController extends AppController {
         );
         $this->SquadUsers->create();
         $this->SquadUsers->save($data);
-        
+
         $this->redirect(array('action' => 'view', $tid));
     }
-    
+
     public function disband($tid = null) {
         $this->SquadUsers->deleteAll(array(
             'squad_id' => $this->request->data['Tournament']['squad']
-        ),false);
+        ), false);
         $this->Squad->delete($this->request->data['Tournament']['squad']);
-        
+
         $this->redirect(array('action' => 'view', $tid));
     }
-    
+
     public function create() {
         $data = array(
             'Squad' => array(
@@ -121,7 +121,7 @@ class TournamentsController extends AppController {
         $this->Session->setFlash(__('Tournament was not deleted'));
         $this->redirect(array('action' => 'index'));
     }
-    
+
     public function admin_index() {
         $this->{$this->modelClass}->recursive = 0;
         $this->set('tournaments', $this->paginate());

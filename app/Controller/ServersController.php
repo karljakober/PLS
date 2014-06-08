@@ -63,21 +63,21 @@ class ServersController extends AppController {
 
 
     public function isAuthorized() {
-    // All registered users can add posts
-    if ($this->action === 'add') {
-      return true;
-    }
+        // All registered users can add posts
+        if ($this->action === 'add') {
+            return true;
+        }
 
-    // The owner of a post can edit and delete it, so can an admin
-    if (in_array($this->action, array('edit', 'delete'))) {
-      $serverId = $this->request->params['pass'][0];
-      if ($this->Server->isOwnedBy($serverId, $this->user['User']['id']) || $this->Auth->User('role') == 'admin') {
-        return true;
-      } else {
-        return false;
-      }
-    }
+        // The owner of a post can edit and delete it, so can an admin
+        if (in_array($this->action, array('edit', 'delete'))) {
+            $serverId = $this->request->params['pass'][0];
+            if ($this->Server->isOwnedBy($serverId, $this->user['User']['id']) || $this->Auth->User('role') == 'admin') {
+                return true;
+            } else {
+                return false;
+            }
+        }
 
-    return parent::isAuthorized();
+        return parent::isAuthorized();
     }
 }

@@ -6,7 +6,7 @@
         <?php if ($user['User']['username'] == "" || $user['User']['email'] == "" || $user['User']['password'] == "") { ?>
         <div class="col-lg-6">
           <div class="well">
-            <?php 
+            <?php
             echo $this->Form->create('User', array(
               'class' => 'bs-example form-horizontal',
               'id' => 'SettingsForm'
@@ -59,7 +59,7 @@
                   echo $this->Form->input('password2', array(
                     'class' => 'form-control',
                     'label' => false
-                  )); 
+                  ));
                   ?>
                 </div>
               </div>
@@ -82,7 +82,7 @@
         <?php } ?>
         <div class="col-lg-6">
           <div class="well">
-            <?php 
+            <?php
             echo $this->Form->create('User', array(
               'class' => 'bs-example form-horizontal',
               'id' => 'SettingsForm'
@@ -90,12 +90,25 @@
             ?>
             <fieldset>
               <legend><?php echo __d('users', 'Other Settings'); ?></legend>
-                      <?php
-                      echo $this->Form->input('twitch_id', array( 'type' => 'text' ) );
-                      ?>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label" for="inputTwitchId">Twitch ID</label>
+                    <div class="col-lg-9">
+                    <?php
+                    echo $this->Form->input('twitch_id', array(
+                      'class' => 'form-control',
+                      'label' => false,
+                      'type'  => 'text'
+                    ));
+                    ?>
+                    </div>
+                </div>
             </fieldset>
             <?php
-            echo $this->Form->end(__('Submit')); ?>
+            echo $this->Form->submit(__d('users', 'Submit'), array(
+                'class' => 'btn btn-primary',
+                'div' => false
+            ));
+            ?>
           </div>
         </div>
       </div>

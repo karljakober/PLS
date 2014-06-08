@@ -39,7 +39,7 @@ fab dev bootstrap
 
   (it will prompt you for MYSQL Root Password, just press enter!)
   if it hangs, close the terminal, start a new one and run
-    
+
   ```
   cd PLS
   fab dev deploy
@@ -54,6 +54,16 @@ If you come back to koding after a length of time, your mysql may automatically 
 To fix this simply run:
 ```
 sudo service mysql start
+```
+
+### No images or Styles are loading,
+
+You need to enable mod_rewrite
+
+```
+a2enmod rewrite
+
+sudo service apache2 restart
 ```
 
 
@@ -71,4 +81,3 @@ Additional Resources
 - Learn Git: http://try.github.io
 
 - Need to tinker with the database? `sudo apt-get install phpmyadmin` select apache2 with tab, then space to check, then tab to OK and press space. phpmyadmin will be installed at yourusername.kd.io/phpmyadmin, username root, no password by default
-

@@ -65,5 +65,4 @@ echo "<?php
           'password' => '',
           'persistent' => false,
      );
-   }
-   define('DEFAULT_TIMEZONE', 'US/Central');" > ./app/Config/database.php
+   }" > ./app/Config/database.php

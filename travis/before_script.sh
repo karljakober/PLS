@@ -7,17 +7,17 @@ if [ "$PHPCS" = '1' ]; then
     exit 0
 fi
 
-travis_retry composer self-update
+composer self-update
 
-mkdir ./vendors
-chmod -R 777 ./vendors
-mkdir ./app/tmp
-mkdir ./app/tmp/cache
-mkdir ./app/tmp/cache/models
-mkdir ./app/tmp/cache/persistent
-mkdir ./app/tmp/logs
-mkdir ./app/tmp/tests
-chmod -R 777 ./app/tmp
+sudo mkdir ./vendors
+sudo chmod -R 777 ./vendors
+sudo mkdir ./app/tmp
+sudo mkdir ./app/tmp/cache
+sudo mkdir ./app/tmp/cache/models
+sudo mkdir ./app/tmp/cache/persistent
+sudo mkdir ./app/tmp/logs
+sudo mkdir ./app/tmp/tests
+sudo chmod -R 777 ./app/tmp
 
 if [ '$DB' = 'mysql' ]; then
     mysql -e 'CREATE DATABASE cakephp_test;';
@@ -27,12 +27,12 @@ if [ '$DB' = 'pgsql' ]; then
     psql -c 'CREATE DATABASE cakephp_test;' -U postgres;
 fi
 
-mv ./travis/database.php ./app/Config/database.php
+sudo mv ./travis/database.php ./app/Config/database.php
 
-travis_retry composer install --dev --no-interaction --prefer-source;
+composer install --dev --no-interaction --prefer-source;
 
 if [ "$COVERALLS" = '1' ]; then
-    travis_try composer require --dev satooshi/php-coveralls:dev-master
+    composer require --dev satooshi/php-coveralls:dev-master
 fi
 
 if [ "$PHPCS" != '1' ]; then

@@ -25,7 +25,8 @@ matrix:
 before_script:
   - chmod -R +x ./travis/
   - ./travis/before_script.sh
-
+  - cat ./app/Config/database.php
+  
 script:
   - ./travis/script.sh
 

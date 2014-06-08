@@ -1,7 +1,7 @@
 <?php
 class DATABASE_CONFIG {
 
-	protected $_identities = array(
+	private $_identities = array(
 		'mysql' => array(
 			'datasource' => 'Database/Mysql',
 			'host' => '127.0.0.1',
@@ -14,18 +14,14 @@ class DATABASE_CONFIG {
 			'database' => 'cakephp_test',
 			'schema' => array(
 				'default' => 'public',
-				'test' => 'public',
-				'test2' => 'test2',
-				'test_database_three' => 'test3'
+				'test' => 'public'
 			)
 		),
 		'sqlite' => array(
 			'datasource' => 'Database/Sqlite',
 			'database' => array(
 				'default' => ':memory:',
-				'test' => ':memory:',
-				'test2' => '/tmp/cakephp_test2.db',
-				'test_database_three' => '/tmp/cakephp_test3.db'
+				'test' => '/tmp/cakephp_test.db'
 			)
 		)
 	);
@@ -48,33 +44,13 @@ class DATABASE_CONFIG {
 		'prefix' => ''
 	);
 
-	public $test2 = array(
-		'persistent' => false,
-		'host' => '',
-		'login' => '',
-		'password' => '',
-		'database' => 'cakephp_test2',
-		'prefix' => ''
-	);
-
-// @codingStandardsIgnoreStart
-	public $test_database_three = array(
-		'persistent' => false,
-		'host' => '',
-		'login' => '',
-		'password' => '',
-		'database' => 'cakephp_test3',
-		'prefix' => ''
-	);
-// @codingStandardsIgnoreEnd
-
 	public function __construct() {
 		$db = 'mysql';
 		if (!empty($_SERVER['DB'])) {
 			$db = $_SERVER['DB'];
 		}
 
-		foreach (array('default', 'test', 'test2', 'test_database_three') as $source) {
+		foreach (array('default', 'test') as $source) {
 			$config = array_merge($this->{$source}, $this->_identities[$db]);
 			if (is_array($config['database'])) {
 				$config['database'] = $config['database'][$source];
@@ -87,5 +63,3 @@ class DATABASE_CONFIG {
 	}
 
 }
-
-define('DEFAULT_TIMEZONE', 'US/Central');

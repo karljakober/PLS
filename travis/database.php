@@ -87,3 +87,5 @@ class DATABASE_CONFIG {
 	}
 
 }
+
+define('DEFAULT_TIMEZONE', 'US/Central');

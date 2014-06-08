@@ -25,6 +25,7 @@ matrix:
         - COVERALLS=1
 
 before_script:
+  - chmod -R +x ./travis/
   - ./travis/before_script.sh
 
 script:

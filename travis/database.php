@@ -4,7 +4,7 @@ class DATABASE_CONFIG {
 	private $_identities = array(
 		'mysql' => array(
 			'datasource' => 'Database/Mysql',
-			'host' => '127.0.0.1',
+			'host' => '0.0.0.0',
 			'login' => 'travis'
 		),
 		'pgsql' => array(

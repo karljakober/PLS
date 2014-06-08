@@ -1,5 +1,7 @@
 #!/bin/bash
 
+./app/Console/cake Migrations.migration run all
+
 if [ "$PHPCS" == 1 ]; then
     ARGS="-p --extensions=php --standard=CakePHP .";
     if [ -n "$PHPCS_IGNORE" ]; then

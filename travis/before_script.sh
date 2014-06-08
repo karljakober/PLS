@@ -27,8 +27,6 @@ if [ '$DB' = 'pgsql' ]; then
     psql -c 'CREATE DATABASE cakephp_test;' -U postgres;
 fi
 
-sudo mv ./travis/database.php ./app/Config/database.php
-
 composer install --dev --no-interaction --prefer-source;
 
 if [ "$COVERALLS" = '1' ]; then

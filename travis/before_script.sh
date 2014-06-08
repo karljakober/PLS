@@ -20,7 +20,7 @@ sudo mkdir ./app/tmp/tests
 sudo chmod -R 777 ./app/tmp
 
 if [ '$DB' = 'mysql' ]; then
-    mysql -e 'CREATE DATABASE cakephp_test; USE cakephp_test; CREATE TABLE testtable (id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT, name VARCHAR(40) NOT NULL, PRIMARY KEY (id));'
+    mysql -e 'CREATE DATABASE cakephp_test; USE cakephp_test;';
 fi
 
 if [ '$DB' = 'pgsql' ]; then

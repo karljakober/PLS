@@ -46,3 +46,15 @@ echo "# for php-coveralls
 src_dir: ./app
 coverage_clover: build/logs/clover.xml
 json_path: build/logs/coveralls-upload.json" > ./.coveralls.yml
+
+echo "<?php
+   class DATABASE_CONFIG {
+     public \$default = array(
+          'datasource' => 'Database/Mysql',
+          'database' => 'cakephp_test',
+          'host' => '127.0.0.1',
+          'login' => 'travis',
+          'password' => '',
+          'persistent' => false,
+     );
+   }" > ./app/Config/database.php

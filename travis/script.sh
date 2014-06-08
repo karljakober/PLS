@@ -13,6 +13,7 @@ if [ "$PHPCS" == 1 ]; then
     eval "phpcs" $ARGS
     exit $?
 fi
+
 if [ "$COVERALLS" == 1 ]; then
     ./app/Console/cake test app AllTests --stderr --coverage-clover build/logs/clover.xml
     exit 1

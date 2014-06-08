@@ -25,16 +25,6 @@ matrix:
 before_script:
   - chmod -R +x ./travis/
   - ./travis/before_script.sh
-  - echo "<?php
-     class DATABASE_CONFIG {
-       public \$default = array(
-            'datasource' => 'Database/Mysql',
-            'database' => 'cakephp_test',
-            'host' => '127.0.0.1',
-            'login' => 'travis',
-            'persistent' => false,
-       );
-     }" > app/Config/database.php
 
 script:
   - ./travis/script.sh

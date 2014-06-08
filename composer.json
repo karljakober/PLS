@@ -1,7 +1,7 @@
 {
     "name": "KarlJakober/PLS",
     "description": "Pong Lan Software",
-    "type": "lan software",
+    "type": "library",
     "keywords": ["lan"],
     "homepage": "http://github.com/KarlJakober/PLS",
     "license": "BSD-2-Clause",

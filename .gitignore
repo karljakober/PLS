@@ -7,8 +7,6 @@
 # composer
 vendor/
 composer.lock
-# travis
-travis/
 # bin
 composer.phar
 php-cs-fixer.phar
@@ -35,6 +33,3 @@ php-cs-fixer.phar
 Icon?
 ehthumbs.db
 Thumbs.db
-
-
-

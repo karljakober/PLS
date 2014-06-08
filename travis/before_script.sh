@@ -53,7 +53,15 @@ echo "<?php
           'datasource' => 'Database/Mysql',
           'database' => 'cakephp_test',
           'host' => '127.0.0.1',
-          'login' => 'travis',
+          'login' => 'root',
+          'password' => '',
+          'persistent' => false,
+     );
+     public \$test = array(
+          'datasource' => 'Database/Mysql',
+          'database' => 'cakephp_test',
+          'host' => '127.0.0.1',
+          'login' => 'root',
           'password' => '',
           'persistent' => false,
      );

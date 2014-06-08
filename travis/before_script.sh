@@ -9,15 +9,15 @@ fi
 
 travis_retry composer self-update
 
-sudo mkdir ./vendors
-sudo chmod -R 777 ./vendors
-sudo mkdir ./app/tmp
-sudo mkdir ./app/tmp/cache
-sudo mkdir ./app/tmp/cache/models
-sudo mkdir ./app/tmp/cache/persistent
-sudo mkdir ./app/tmp/logs
-sudo mkdir ./app/tmp/tests
-sudo chmod -R 777 ./app/tmp
+mkdir ./vendors
+chmod -R 777 ./vendors
+mkdir ./app/tmp
+mkdir ./app/tmp/cache
+mkdir ./app/tmp/cache/models
+mkdir ./app/tmp/cache/persistent
+mkdir ./app/tmp/logs
+mkdir ./app/tmp/tests
+chmod -R 777 ./app/tmp
 
 if [ '$DB' = 'mysql' ]; then
     mysql -e 'CREATE DATABASE cakephp_test;';

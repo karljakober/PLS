@@ -1,27 +1,27 @@
 {
-    "name": "PLS",
-    "version": "0.0.0",
+    "name": "KarlJakober/PLS",
     "description": "Pong Lan Software",
-    "main": "messageServer.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/KarlJakober/PLS.git"
-    },
-    "keywords": [
-        "lan"
-    ],
-    "author": "Karl Jakober",
+    "type": "lan software",
+    "keywords": ["lan"],
+    "homepage": "http://github.com/KarlJakober/PLS",
     "license": "BSD-2-Clause",
-    "bugs": {
-        "url": "https://github.com/KarlJakober/PLS/issues"
+    "authors": [
+        {
+            "name": "PLS Community",
+            "homepage": "https://github.com/KarlJakober/PLS/graphs/contributors"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/KarlJakober/PLS/issues",
+        "source": "https://github.com/KarlJakober/PLS"
     },
     "require": {
-        	"php": ">=5.2.8"
+        "php": ">=5.2.8",
+        "ext-mcrypt": "*"
     },
     "require-dev": {
+        "phpunit/phpunit": "3.7.*",
+        "cakephp/debug_kit": "2.2.*",
         "satooshi/php-coveralls": "dev-master"
     },
     "bin": [

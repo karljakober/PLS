@@ -16,6 +16,11 @@ services:
   - memcached
 
 matrix:
+  fast_finish: true
+  allow_failures:
+    - php: 5.4
+      env:
+        - PHPCS=1
   include:
     - php: 5.4
       env:
@@ -23,17 +28,16 @@ matrix:
     - php: 5.4
       env:
         - COVERALLS=1
-        
+
 before_install:
-  - composer selfupdate
+  - sudo apt-get update > /dev/null
 
 before_script:
-  - composer selfupdate
   - sh -c "if [ '$TRAVIS_PHP_VERSION' != '5.2' ]; then composer global require 'phpunit/phpunit=3.7.33'; fi"
+  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '5.2' ]; then ln -s ~/.composer/vendor/phpunit/phpunit/PHPUnit ./vendors/PHPUnit; fi"
   - sh -c "if [ '$COVERALLS' = '1' ]; then composer global require --dev 'satooshi/php-coveralls:dev-master'; fi"
   - sudo mkdir ./vendors
   - sudo chmod -R 777 ./vendors
-  - sh -c "if [ '$TRAVIS_PHP_VERSION' != '5.2' ]; then ln -s ~/.composer/vendor/phpunit/phpunit/PHPUnit ./vendors/PHPUnit; fi"
   - sudo locale-gen de_DE
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test2;'; fi"

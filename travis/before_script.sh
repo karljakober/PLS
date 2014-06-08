@@ -52,16 +52,16 @@ echo "<?php
      public \$default = array(
           'datasource' => 'Database/Mysql',
           'database' => 'cakephp_test',
-          'host' => '127.0.0.1',
-          'login' => 'root',
+          'host' => '0.0.0.0',
+          'login' => 'travis',
           'password' => '',
           'persistent' => false,
      );
      public \$test = array(
           'datasource' => 'Database/Mysql',
           'database' => 'cakephp_test',
-          'host' => '127.0.0.1',
-          'login' => 'root',
+          'host' => '0.0.0.0',
+          'login' => 'travis',
           'password' => '',
           'persistent' => false,
      );

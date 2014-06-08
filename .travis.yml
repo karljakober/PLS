@@ -23,8 +23,10 @@ matrix:
         - COVERALLS=1
 
 before_script:
+  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - chmod -R +x ./travis/
   - ./travis/before_script.sh
+  - sh -c "if [ '$DB' = 'mysql' ]; then cat ./app/Config/database.php; fi"
 
 script:
   - ./travis/script.sh

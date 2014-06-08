@@ -19,14 +19,6 @@ sudo mkdir ./app/tmp/logs
 sudo mkdir ./app/tmp/tests
 sudo chmod -R 777 ./app/tmp
 
-if [ '$DB' = 'mysql' ]; then
-    mysql -e 'CREATE DATABASE cakephp_test; USE cakephp_test;';
-fi
-
-if [ '$DB' = 'pgsql' ]; then
-    psql -c 'CREATE DATABASE cakephp_test;' -U postgres;
-fi
-
 composer install --dev --no-interaction --prefer-source;
 
 if [ "$COVERALLS" = '1' ]; then

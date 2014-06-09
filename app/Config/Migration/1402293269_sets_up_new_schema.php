@@ -1,5 +1,5 @@
 <?php
-class InitialSchema extends CakeMigration {
+class SetsUpNewSchema extends CakeMigration {
 
 /**
  * Migration description
@@ -45,6 +45,8 @@ class InitialSchema extends CakeMigration {
 					'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 					'content' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 					'author_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+					'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+					'title' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
@@ -84,8 +86,39 @@ class InitialSchema extends CakeMigration {
 					'lan_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 					'address' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-					'user_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'user_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 					'additional_info' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+					'official' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB'),
+				),
+				'team_requests' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+					'user_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+					'team_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+						'id' => array('column' => 'id', 'unique' => 0),
+					),
+					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB'),
+				),
+				'team_tournaments' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+					'team_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'tournament_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB'),
+				),
+				'teams' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+					'description' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+					'manager_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+					'invite_only' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
@@ -108,25 +141,31 @@ class InitialSchema extends CakeMigration {
 					'start_time' => array('type' => 'timestamp', 'null' => false, 'default' => 'CURRENT_TIMESTAMP'),
 					'end_time' => array('type' => 'timestamp', 'null' => false, 'default' => '0000-00-00 00:00:00'),
 					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 25, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+					'allow_teams' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+					'assigned_admin' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
 					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB'),
 				),
-				'user_details' => array(
-					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-					'user_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-					'position' => array('type' => 'float', 'null' => false, 'default' => '1'),
-					'field' => array('type' => 'string', 'null' => false, 'default' => NULL, 'key' => 'index', 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-					'value' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-					'input' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 16, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-					'data_type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 16, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-					'label' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 128, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+				'user_seatings' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+					'user_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+					'lan_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'seat_number' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-						'UNIQUE_PROFILE_PROPERTY' => array('column' => array('field', 'user_id'), 'unique' => 1),
+						'seat_number' => array('column' => array('seat_number', 'lan_id'), 'unique' => 1),
+						'user_id' => array('column' => array('user_id', 'lan_id'), 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB'),
+				),
+				'user_teams' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+					'user_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+					'team_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
 					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB'),
 				),
@@ -150,6 +189,7 @@ class InitialSchema extends CakeMigration {
 					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'twitch_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 					'steam_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+					'forum_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 						'BY_USERNAME' => array('column' => 'username', 'unique' => 0),
@@ -161,7 +201,7 @@ class InitialSchema extends CakeMigration {
 		),
 		'down' => array(
 			'drop_table' => array(
-				'lans', 'messages', 'news', 'options', 'seating_chart_tiles', 'seating_charts', 'servers', 'tiles', 'tournaments', 'user_details', 'users'
+				'lans', 'messages', 'news', 'options', 'seating_chart_tiles', 'seating_charts', 'servers', 'team_requests', 'team_tournaments', 'teams', 'tiles', 'tournaments', 'user_seatings', 'user_teams', 'users'
 			),
 		),
 	);
